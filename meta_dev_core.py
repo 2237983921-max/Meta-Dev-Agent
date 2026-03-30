@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import importlib.util
 import json
 import os
 import re
@@ -1635,6 +1636,241 @@ def _score_python_candidate(code: str) -> float:
     return score
 
 
+def _normalize_generated_file_path(path: str) -> str:
+    """
+    规范化模型输出中的相对文件路径，并阻止越界写入。
+    """
+
+    normalized = path.strip().strip("`").strip().replace("\\", "/")
+    while normalized.startswith("./"):
+        normalized = normalized[2:]
+    normalized = os.path.normpath(normalized)
+
+    if (
+        not normalized
+        or normalized == "."
+        or normalized.startswith("../")
+        or normalized.startswith("..\\")
+        or os.path.isabs(normalized)
+    ):
+        raise ValueError(f"不安全的文件路径：{path}")
+
+    return normalized
+
+
+def _normalize_saved_file_content(path: str, content: str) -> str:
+    """
+    根据文件类型对模型输出的文件内容做最小清洗。
+    """
+
+    cleaned = textwrap.dedent(content).strip("\n")
+    if path.endswith(".py"):
+        cleaned = _normalize_candidate_code(cleaned)
+    return cleaned
+
+
+def _extract_generated_file_path(line: str) -> str | None:
+    """
+    尝试从一行文本里识别“文件头”，例如：
+    - File: main.py
+    - 文件：tests/test_app.py
+    - 1) requirements.txt
+    - .github/workflows/tests.yml
+    """
+
+    stripped = line.strip()
+    if not stripped:
+        return None
+
+    had_bullet_prefix = re.match(r"^(?:[-*]\s+|\d+[.)]\s+)", stripped) is not None
+    had_explicit_label = re.match(
+        r"^(?:file|files|文件|路径|path)\s*[:：]\s*",
+        stripped,
+        flags=re.IGNORECASE,
+    ) is not None
+    wrapped_in_backticks = stripped.startswith("`") and stripped.endswith("`")
+
+    if not (had_bullet_prefix or had_explicit_label or wrapped_in_backticks):
+        return None
+
+    stripped = re.sub(r"^(?:[-*]\s+|\d+[.)]\s+)", "", stripped)
+    stripped = re.sub(r"^(?:file|files|文件|路径|path)\s*[:：]\s*", "", stripped, flags=re.IGNORECASE)
+    stripped = stripped.strip().strip("`").strip()
+
+    if not re.fullmatch(r"[A-Za-z0-9._/\-]+", stripped):
+        return None
+
+    if "." not in stripped and "/" not in stripped:
+        return None
+
+    try:
+        return _normalize_generated_file_path(stripped)
+    except ValueError:
+        return None
+
+
+def _extract_explicit_file_blocks(text: str) -> dict[str, str]:
+    """
+    从模型输出中提取“多文件项目”格式：
+    - 文件头 + 代码块
+    - 文件头 + 内容: + 缩进内容
+    """
+
+    lines = text.replace("\r\n", "\n").replace("\r", "\n").splitlines()
+    file_blocks: dict[str, str] = {}
+    section_header_pattern = re.compile(r"^[A-Z_][A-Z0-9_ ]*:\s*$")
+
+    i = 0
+    while i < len(lines):
+        path = _extract_generated_file_path(lines[i])
+        if not path:
+            i += 1
+            continue
+
+        j = i + 1
+        while j < len(lines) and not lines[j].strip():
+            j += 1
+
+        if j < len(lines) and re.fullmatch(r"(?:内容|content)\s*[:：]?", lines[j].strip(), flags=re.IGNORECASE):
+            j += 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+
+        collected: list[str] = []
+
+        if j < len(lines) and lines[j].lstrip().startswith("```"):
+            j += 1
+            while j < len(lines):
+                if lines[j].lstrip().startswith("```"):
+                    j += 1
+                    break
+                collected.append(lines[j])
+                j += 1
+        else:
+            while j < len(lines):
+                current = lines[j]
+                current_stripped = current.strip()
+
+                if _extract_generated_file_path(current):
+                    break
+
+                if section_header_pattern.fullmatch(current_stripped):
+                    break
+
+                if not current_stripped:
+                    k = j + 1
+                    while k < len(lines) and not lines[k].strip():
+                        k += 1
+                    if (
+                        k >= len(lines)
+                        or _extract_generated_file_path(lines[k])
+                        or section_header_pattern.fullmatch(lines[k].strip())
+                    ):
+                        break
+
+                collected.append(current)
+                j += 1
+
+        content = _normalize_saved_file_content(path, "\n".join(collected))
+        if content.strip():
+            file_blocks[path] = content
+
+        i = max(j, i + 1)
+
+    return file_blocks
+
+
+def _format_saved_files_bundle(saved_files: dict[str, str]) -> str:
+    """
+    将已保存文件整理成适合继续喂给 QA / DEV 的统一快照文本。
+    """
+
+    parts: list[str] = []
+    for path in sorted(saved_files):
+        language = "python" if path.endswith(".py") else ""
+        header = f"FILE: {path}"
+        if language:
+            parts.append(f"{header}\n```{language}\n{saved_files[path]}\n```")
+        else:
+            parts.append(f"{header}\n```\n{saved_files[path]}\n```")
+    return "\n\n".join(parts)
+
+
+def _select_primary_generated_file(saved_files: dict[str, str], default_filename: str) -> str | None:
+    """
+    选择一个最适合作为入口脚本的 Python 文件。
+    """
+
+    if default_filename in saved_files:
+        return default_filename
+
+    preferred_names = (
+        "main.py",
+        "app.py",
+        "run.py",
+        "cli.py",
+        "__main__.py",
+    )
+    for name in preferred_names:
+        if name in saved_files:
+            return name
+
+    python_files = [
+        path for path in saved_files
+        if path.endswith(".py")
+        and not re.search(r"(^|/)(test_.*|.*_test)\.py$", path)
+        and not path.startswith("tests/")
+    ]
+    if python_files:
+        return sorted(python_files)[0]
+
+    all_python_files = [path for path in saved_files if path.endswith(".py")]
+    return sorted(all_python_files)[0] if all_python_files else None
+
+
+def extract_and_save_generated_artifacts(
+    ai_response_text: str,
+    filename: str = "auto_generated.py",
+) -> dict[str, Any]:
+    """
+    优先按“多文件项目”提取；若没有明确文件结构，则回退为单文件 Python 提取。
+    """
+
+    if not isinstance(ai_response_text, str) or not ai_response_text.strip():
+        raise ValueError("ai_response_text 不能为空。")
+
+    text = ai_response_text.replace("\r\n", "\n").replace("\r", "\n").strip()
+    explicit_files = _extract_explicit_file_blocks(text)
+
+    if explicit_files:
+        saved_files: dict[str, str] = {}
+        for path, content in explicit_files.items():
+            directory = os.path.dirname(path)
+            if directory:
+                os.makedirs(directory, exist_ok=True)
+            with open(path, "w", encoding="utf-8") as file_obj:
+                file_obj.write(content + ("\n" if content and not content.endswith("\n") else ""))
+            saved_files[path] = content
+
+        primary_file = _select_primary_generated_file(saved_files, filename)
+        saved_summary = "、".join(sorted(saved_files))
+        print(f"\033[92m✅ 已自动保存 {len(saved_files)} 个文件：{saved_summary}\033[0m")
+        return {
+            "artifact_kind": "project",
+            "files": saved_files,
+            "primary_file": primary_file,
+            "saved_code": _format_saved_files_bundle(saved_files),
+        }
+
+    saved_code = extract_and_save_code(ai_response_text, filename)
+    return {
+        "artifact_kind": "single_file",
+        "files": {filename: saved_code},
+        "primary_file": filename,
+        "saved_code": saved_code,
+    }
+
+
 def extract_and_save_code(ai_response_text: str, filename: str = "auto_generated.py") -> str:
     """
     从 AI 返回的长文本里提取 Python 代码，并覆盖保存到当前目录文件中。
@@ -1793,16 +2029,70 @@ def should_use_interactive_execution(user_request: str, generated_code: str = ""
         "play in terminal",
         "run it now",
     )
-    code_markers = (
-        "input(",
-        "getpass(",
-        "readline(",
-    )
 
     if any(keyword in request_text for keyword in request_keywords):
         return True
 
-    return any(marker in code_text for marker in code_markers)
+    if not code_text.strip():
+        return False
+
+    try:
+        tree = ast.parse(code_text)
+    except SyntaxError:
+        code_markers = (
+            "input(",
+            "getpass(",
+            "readline(",
+        )
+        return any(marker in code_text for marker in code_markers)
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        func = node.func
+        if isinstance(func, ast.Name) and func.id in {"input", "getpass"}:
+            return True
+        if isinstance(func, ast.Attribute) and func.attr == "readline":
+            return True
+
+    return False
+
+
+def _run_command_and_capture(
+    command: list[str],
+    timeout: int = 10,
+    cwd: str | None = None,
+) -> str:
+    """
+    运行一个命令并返回统一格式的 stdout/stderr/exit code 文本。
+    """
+
+    try:
+        completed = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            stdin=subprocess.DEVNULL,
+            timeout=timeout,
+            cwd=cwd,
+        )
+    except subprocess.TimeoutExpired:
+        return "ERROR: 代码运行超时（可能是死循环），已强行终止。"
+    except Exception as exc:
+        return f"[SYSTEM_ERROR] 无法运行命令 {' '.join(command)}: {exc}"
+
+    stdout = completed.stdout.strip()
+    stderr = completed.stderr.strip()
+
+    parts: list[str] = [f"[COMMAND] {' '.join(command)}", f"[EXIT_CODE] {completed.returncode}"]
+    if stdout:
+        parts.append(f"[STDOUT]\n{stdout}")
+    if stderr:
+        parts.append(f"[STDERR]\n{stderr}")
+    if not stdout and not stderr:
+        parts.append("[NO_OUTPUT] 程序已运行，但没有输出。")
+
+    return "\n\n".join(parts)
 
 
 def run_and_catch_error(filename: str, timeout: int = 10) -> str:
@@ -1818,30 +2108,7 @@ def run_and_catch_error(filename: str, timeout: int = 10) -> str:
     - 默认带 10 秒超时保护，避免 AI 生成的死循环代码卡住整条流水线。
     """
 
-    try:
-        completed = subprocess.run(
-            [sys.executable, filename],
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
-    except subprocess.TimeoutExpired:
-        return "ERROR: 代码运行超时（可能是死循环），已强行终止。"
-    except Exception as exc:
-        return f"[SYSTEM_ERROR] 无法运行 {filename}: {exc}"
-
-    stdout = completed.stdout.strip()
-    stderr = completed.stderr.strip()
-
-    parts: list[str] = [f"[EXIT_CODE] {completed.returncode}"]
-    if stdout:
-        parts.append(f"[STDOUT]\n{stdout}")
-    if stderr:
-        parts.append(f"[STDERR]\n{stderr}")
-    if not stdout and not stderr:
-        parts.append("[NO_OUTPUT] 程序已运行，但没有输出。")
-
-    return "\n\n".join(parts)
+    return _run_command_and_capture([sys.executable, filename], timeout=timeout)
 
 
 def run_interactive_python_file(filename: str) -> int:
@@ -1867,6 +2134,97 @@ def run_interactive_python_file(filename: str) -> int:
     return completed.returncode
 
 
+def _pytest_available() -> bool:
+    """
+    判断当前 Python 环境是否已安装 pytest。
+    """
+
+    return importlib.util.find_spec("pytest") is not None
+
+
+def _project_has_tests(saved_files: dict[str, str]) -> bool:
+    return any(
+        path.startswith("tests/")
+        or re.search(r"(^|/)(test_.*|.*_test)\.py$", path)
+        for path in saved_files
+    )
+
+
+def _project_prefers_pytest(saved_files: dict[str, str]) -> bool:
+    for path, content in saved_files.items():
+        lowered = content.lower()
+        if "import pytest" in lowered or "pytest." in lowered:
+            return True
+        if path in {"requirements.txt", "pyproject.toml"} and "pytest" in lowered:
+            return True
+    return False
+
+
+def _build_project_test_command(saved_files: dict[str, str]) -> list[str] | None:
+    """
+    为多文件项目选择最合适的测试命令。
+    """
+
+    if not _project_has_tests(saved_files):
+        return None
+
+    if _project_prefers_pytest(saved_files) and not _pytest_available():
+        return None
+
+    if _pytest_available():
+        return [sys.executable, "-m", "pytest", "-q"]
+
+    if any(path.startswith("tests/") for path in saved_files):
+        return [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test*.py", "-v"]
+
+    return [sys.executable, "-m", "unittest", "discover", "-v"]
+
+
+def _build_project_execution_plan(
+    saved_files: dict[str, str],
+    primary_file: str | None,
+    user_request: str,
+) -> dict[str, Any]:
+    """
+    为已保存的项目文件选择“跑测试”还是“跑入口脚本”。
+    """
+
+    test_command = _build_project_test_command(saved_files)
+    if test_command is not None:
+        return {
+            "mode": "sandbox",
+            "command": test_command,
+            "reason": "检测到测试文件，优先执行自动化测试。",
+        }
+
+    if _project_has_tests(saved_files) and _project_prefers_pytest(saved_files) and not _pytest_available():
+        return {
+            "mode": "sandbox",
+            "command": None,
+            "reason": "检测到 pytest 测试，但当前环境未安装 pytest。",
+            "precomputed_result": (
+                "ERROR: 检测到 pytest 测试文件，但当前 Python 环境未安装 pytest。"
+                "请先执行 pip install -r requirements.txt，或让 DEV 改用 unittest。"
+            ),
+        }
+
+    if primary_file and primary_file.endswith(".py"):
+        primary_code = saved_files.get(primary_file, "")
+        if should_use_interactive_execution(user_request, primary_code):
+            return {
+                "mode": "interactive",
+                "command": [sys.executable, primary_file],
+                "reason": f"入口脚本 {primary_file} 含交互式输入。",
+            }
+        return {
+            "mode": "sandbox",
+            "command": [sys.executable, primary_file],
+            "reason": f"未检测到测试文件，执行入口脚本 {primary_file}。",
+        }
+
+    raise ValueError("未找到可执行的 Python 入口文件，也未检测到测试文件。")
+
+
 def save_and_execute_generated_code(
     generated_code_text: str,
     user_request: str,
@@ -1881,29 +2239,63 @@ def save_and_execute_generated_code(
       "mode": "interactive" | "sandbox",
       "filename": "auto_generated.py",
       "saved_code": "...",
+      "saved_files": {"main.py": "..."},
       "run_result": "...",
       "exit_code": 0
     }
     """
 
-    saved_code = extract_and_save_code(generated_code_text, filename)
-    interactive_mode = should_use_interactive_execution(user_request, saved_code)
+    artifact_info = extract_and_save_generated_artifacts(generated_code_text, filename)
+    saved_files = artifact_info["files"]
+    saved_code = artifact_info["saved_code"]
+    primary_file = artifact_info["primary_file"]
 
-    if interactive_mode:
-        exit_code = run_interactive_python_file(filename)
+    if artifact_info["artifact_kind"] == "project":
+        execution_plan = _build_project_execution_plan(
+            saved_files=saved_files,
+            primary_file=primary_file,
+            user_request=user_request,
+        )
+    else:
+        if should_use_interactive_execution(user_request, saved_code):
+            execution_plan = {
+                "mode": "interactive",
+                "command": [sys.executable, filename],
+                "reason": "检测到单文件交互式脚本。",
+            }
+        else:
+            execution_plan = {
+                "mode": "sandbox",
+                "command": [sys.executable, filename],
+                "reason": f"运行单文件脚本 {filename}。",
+            }
+
+    if execution_plan["mode"] == "interactive":
+        if not primary_file:
+            raise ValueError("缺少交互式入口文件，无法启动。")
+        exit_code = run_interactive_python_file(primary_file)
         return {
             "mode": "interactive",
-            "filename": filename,
+            "filename": primary_file,
             "saved_code": saved_code,
+            "saved_files": saved_files,
+            "artifact_kind": artifact_info["artifact_kind"],
+            "execution_reason": execution_plan["reason"],
             "run_result": None,
             "exit_code": exit_code,
         }
 
-    run_result = run_and_catch_error(filename, timeout=timeout)
+    if execution_plan.get("precomputed_result"):
+        run_result = execution_plan["precomputed_result"]
+    else:
+        run_result = _run_command_and_capture(execution_plan["command"], timeout=timeout)
     return {
         "mode": "sandbox",
-        "filename": filename,
+        "filename": primary_file or filename,
         "saved_code": saved_code,
+        "saved_files": saved_files,
+        "artifact_kind": artifact_info["artifact_kind"],
+        "execution_reason": execution_plan["reason"],
         "run_result": run_result,
         "exit_code": None,
     }
@@ -1978,6 +2370,32 @@ def generate_commit_message_with_pm(
     return _normalize_commit_message(raw_message)
 
 
+def run_result_indicates_success(run_result: str) -> bool:
+    """
+    根据自动运行结果粗略判断当前版本是否通过。
+    """
+
+    if not run_result.strip():
+        return False
+
+    if "ERROR:" in run_result or "[SYSTEM_ERROR]" in run_result:
+        return False
+
+    match = re.search(r"\[EXIT_CODE\]\s+(\d+)", run_result)
+    if match and int(match.group(1)) != 0:
+        return False
+
+    failure_markers = (
+        "traceback",
+        "failed",
+        "error:",
+        "assertionerror",
+        "moduleNotFoundError".lower(),
+    )
+    lowered = run_result.lower()
+    return not any(marker in lowered for marker in failure_markers)
+
+
 def run_boss_review_loop(
     original_request: str,
     generated_code: str,
@@ -2014,6 +2432,11 @@ def run_boss_review_loop(
             continue
 
         if feedback.lower() == "pass":
+            if not run_result_indicates_success(current_run_result):
+                print("\n[系统] 最近一次自动运行结果仍然显示失败或超时，当前不能直接自动存档。")
+                print("[系统] 请先输入具体修改意见，或等待测试真正通过后再输入 pass。")
+                continue
+
             print("\n🎉 恭喜！项目测试通过，准备收工！")
             print("\n[系统] 正在呼叫 PM 为本次完美代码生成存档说明...")
             try:
@@ -2037,7 +2460,7 @@ def run_boss_review_loop(
         print("\n[测试工程师] 正在结合【运行结果】与【老板反馈】分析问题并给出修改建议...")
         qa_prompt = (
             f"原始开发需求如下:\n{original_request}\n\n"
-            f"当前代码如下:\n```python\n{current_code}\n```\n\n"
+            f"当前项目/代码如下:\n{current_code}\n\n"
             f"刚才系统自动运行的真实结果/报错如下:\n{current_run_result}\n\n"
             f"老板给出的最新测试反馈如下:\n{feedback}\n\n"
             "请分析问题原因，并给出具体、可执行的修改指导。"
@@ -2061,7 +2484,7 @@ def run_boss_review_loop(
         print("\n[程序员] 正在根据测试报告继续修复代码...")
         dev_fix_prompt = (
             f"原始开发需求如下:\n{original_request}\n\n"
-            f"当前代码如下:\n```python\n{current_code}\n```\n\n"
+            f"当前项目/代码如下:\n{current_code}\n\n"
             f"当前运行结果如下:\n{current_run_result}\n\n"
             f"QA 给出的修改指导如下:\n{test_report}\n\n"
             f"老板给出的最新测试反馈如下:\n{feedback}\n\n"
@@ -2102,6 +2525,8 @@ def run_boss_review_loop(
 
         current_code = execution_result["saved_code"]
         current_run_result = execution_result["run_result"] or ""
+        if execution_result.get("execution_reason"):
+            print(f"[系统] 执行策略：{execution_result['execution_reason']}")
         print(f"[系统] 新版本运行结果:\n{current_run_result}")
 
 
@@ -2204,7 +2629,7 @@ def request_dev_single_file_retry(
     stream: bool = False,
 ) -> str:
     """
-    当首次代码提取失败时，要求 DEV 将产物重写为“单文件、纯 Python 代码”格式。
+    当首次代码提取失败时，要求 DEV 将产物重写为“规范单文件或规范多文件项目”格式。
     """
 
     retry_prompt = (
@@ -2213,11 +2638,11 @@ def request_dev_single_file_retry(
         f"上一次输出如下：\n{previous_response}\n\n"
         f"系统提取失败原因：{extraction_error}\n\n"
         "现在请你重写输出，并严格遵守：\n"
-        "1. 只输出一个完整的 Python 单文件脚本。\n"
-        "2. 不要输出多个文件，不要输出“文件：xxx.py”说明，不要输出 ROLE/STAGE/项目符号。\n"
-        "3. 不要输出 Markdown 解释文字；如果使用代码块，只允许一个 ```python``` 代码块，里面放完整代码。\n"
-        "4. 如果用户提到自动测试，请把最小自测试逻辑也收进这个单文件里，确保系统能直接运行验证。\n"
-        "5. 代码必须可直接保存并运行。"
+        "1. 如果是单文件，请只输出一个完整的 Python 脚本。\n"
+        "2. 如果是多文件项目，请严格使用“文件名 + 代码块”的规范格式，例如：File: main.py 然后紧跟对应代码块。\n"
+        "3. 不要输出 ROLE/STAGE/项目符号分析，不要输出无关解释。\n"
+        "4. 如果用户提到自动测试，请优先给出可直接自动运行测试的项目结构。\n"
+        "5. 输出必须能被系统自动保存并执行。"
     )
     return chat_with_agent(
         system_prompt=DEV_SYSTEM_PROMPT,
@@ -3603,6 +4028,8 @@ def main() -> None:
 
         if execution_result["mode"] == "sandbox":
             print("[系统] 当前任务按后台测试模式执行完成。")
+            if execution_result.get("execution_reason"):
+                print(f"[系统] 执行策略：{execution_result['execution_reason']}")
             if execution_result["run_result"]:
                 print(execution_result["run_result"])
             if args.role == "dev":
