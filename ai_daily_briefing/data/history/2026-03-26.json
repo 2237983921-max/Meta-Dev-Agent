@@ -1,0 +1,362 @@
+{
+  "generated_at": "2026-03-26T10:02:43.645069+08:00",
+  "generated_label": "2026年03月26日 10:02",
+  "timezone": "Asia/Shanghai",
+  "mode": "live",
+  "overview": {
+    "headline": "03月26日 AI 早报：ChatGPT、Claude、Gemini值得先看",
+    "summary": "今天主线围绕 模型发布 / 芯片与算力 展开。行业新闻抓到 10 条，X 追踪抓到 11 条；如果只看 3 分钟，先盯住“深入了解我们的模型规格方法”。",
+    "watchwords": [
+      "模型发布",
+      "芯片与算力"
+    ],
+    "quick_cards": [
+      {
+        "title": "今天先看什么",
+        "body": "深入了解我们的模型规格方法；OpenAI 安全漏洞赏金计划简介；OpenAI 为开发者发布青少年人工智能安全工具 |…"
+      },
+      {
+        "title": "圈内风向",
+        "body": "今天更偏 模型发布、芯片与算力，目前 10/11 个源刷新正常。"
+      },
+      {
+        "title": "X 上谁更活跃",
+        "body": "Gemini、Grok、Claude 这几条线更新更密。"
+      }
+    ]
+  },
+  "stats": {
+    "news_count": 10,
+    "x_count": 11,
+    "healthy_sources": 10,
+    "total_sources": 11
+  },
+  "top_news": [
+    {
+      "title": "深入了解我们的模型规格方法",
+      "original_title": "Inside our approach to the Model Spec",
+      "url": "https://openai.com/index/our-approach-to-the-model-spec",
+      "published_at": "2026-03-25 18:00",
+      "source": "OpenAI / News",
+      "theme": "模型发布",
+      "brand": "ChatGPT",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：ChatGPT 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "OpenAI 安全漏洞赏金计划简介",
+      "original_title": "Introducing the OpenAI Safety Bug Bounty program",
+      "url": "https://openai.com/index/safety-bug-bounty",
+      "published_at": "2026-03-25 08:00",
+      "source": "OpenAI / News",
+      "theme": "模型发布",
+      "brand": "ChatGPT",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：ChatGPT 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "OpenAI 为开发者发布青少年人工智能安全工具 | ETIH 教育科技新闻",
+      "original_title": "OpenAI releases teen AI safety tools for developers | ETIH EdTech News",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBTLTRsanEzTVc4SzJWSTBfcVYyTHNBbWoxMjZYX3prUHJIczBTeWtEUk5fMUZnZDNQREF0b3NDWmtPVk9VWERVRUxVY0xHaVFPX2txaHFHbTB0NGNVZ2l2dDhJWVIwQWFwM1NaVmhuV1J1SUJPSjZubWw5OA?oc=5",
+      "published_at": "2026-03-26 09:33",
+      "source": "EdTech Innovation Hub",
+      "theme": "模型发布",
+      "brand": "ChatGPT",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：ChatGPT 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "人类报告发现 Claude 用户的体验不断提高 | ETIH 教育科技新闻",
+      "original_title": "Anthropic report finds Claude users improve with experience | ETIH EdTech News",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQbVZ4bXdjT1QzOFgzRWIwQjdqRGk2SnVTaHhwUHBrdDY4bWZhYkVidEFlTGQ4dm5qSjZtb2ZiQTNRWXR2WUEtU1dWcFZPRWdpUk0xREFxakJXVUc1b0VOWGFmbUhwM1ZFcnZkRkVNTTJGbS1OcDNUTkI4ZDdYZmZGUzFQRVkxVUUzRkJSSEM3TnhjUmI0MTNndi0wR0RNVTBJZ19iODg4dFlEZk5yWmU5R1hLLWs5QndtcHF3dF9qQUU?oc=5",
+      "published_at": "2026-03-26 09:03",
+      "source": "EdTech Innovation Hub",
+      "theme": "模型发布",
+      "brand": "Claude",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Claude 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "Sparkle 通过 AWS Bedrock 将 Anthropic 的 Claude AI 引入欧洲",
+      "original_title": "Sparkle Brings Anthropic’s Claude AI to Europe via AWS Bedrock",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPOGgzUFpuSW1DRjVxajNob1pLMGRDZFRjSmNRLUdKd1dsdWVaSGF6MFpnQXk2Y2NGemxBdWNDYml0Ymw4VEI3Zmo2bHNBNG10ekFFWks2S2h1REkwZG13M3ZrOE1vaXZFRDlNVEJUYV9SVVZHY2Fjc3dCakJRYWNGNlJMUnFiVC1UZzBjSkR1am9xZGpKVzRsV2xORWxCVW5ScUNTaTQ2RFJ4THpST1c5ZHZwVXlWSDcw?oc=5",
+      "published_at": "2026-03-26 08:23",
+      "source": "The Fast Mode",
+      "theme": "模型发布",
+      "brand": "Claude",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Claude 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "双子座今日星座运势：2026 年 3 月 26 日",
+      "original_title": "Gemini Horoscope Today: March 26, 2026",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9YN3ZmOVY4dUVKaWtRc2dqYklVWXkycGFaZFdYM3drWk1HeW4wLU1Hdi1Qa09scXREc0FLZVI4cWRHeVU0dDk5N0gwV2hSUExzRDFFV184T2x0bm4zV0RPcXA4T0pFRng5RmtnNGNOWHJ5cjA?oc=5",
+      "published_at": "2026-03-26 08:20",
+      "source": "Vogue India",
+      "theme": "模型发布",
+      "brand": "Gemini",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Gemini 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "Claude 现在可以在 Mac 上打开应用程序、单击按钮并完成任务 - 但 Anthropic 表示风险仍然存在",
+      "original_title": "Claude can now open apps, click buttons, and complete tasks on your Mac — but Anthropic says risks remain",
+      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1IUGpaVUJyVHRDUWZrbEY4ejRaMVk2YTR1ZGpCWUxHQWhIbDNNdkN0eTFhdWxZR0VqaVhNNnBMVWxRaHo3bXFLU1N5TjZsTF9hTzRoellB?oc=5",
+      "published_at": "2026-03-26 07:37",
+      "source": "The New Stack",
+      "theme": "模型发布",
+      "brand": "Claude",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Claude 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "美国参议员指责英伟达首席执行官误导性言论，敦促停止AI芯片出口",
+      "original_title": "US senators accuse Nvidia CEO of misleading claims, urge halt to AI chip exports",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNeVNmRjR2X0FvM0d0OUdndVlKZUJFbE5sWGM3V2tibkhtUlU4RE5FeHRVZm8yb19OUmxuYUxhREJzc2NQdzU2RVRmZzNOeXg5TW1vM0VGaGxleUktSGdiTEpnTk5kQ3Fjcno5WGNvejRZZ1piOS1sY3FOUUU0VzZHTzRVVWc3cjA?oc=5",
+      "published_at": "2026-03-26 08:35",
+      "source": "digitimes",
+      "theme": "芯片与算力",
+      "brand": "Nvidia",
+      "source_brief": "这条消息更偏底层算力和成本变化，适合继续跟进。",
+      "ai_summary": "这条消息更偏底层算力和成本变化，适合继续跟进。AI 判断：Nvidia 这条动态属于“芯片与算力”信号，更值得盯成本、供给和推理价格会不会继续变化。"
+    },
+    {
+      "title": "Nvidia 从 GPU 和人工智能“推理王”经济学的转变",
+      "original_title": "Nvidia’s Shift from GPUs and AI ‘Inference King’ Economics",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQNzFIWUpCb3dlRUZ6SFJfMTU5QzZfZjc1d0hhYlQ1NEtBVmcwYWJZQnFDSV9vdkxjNjZqSENDdDY5VUJYdEZhaGxRZjQyNzZwcTRTeEVaU0picUZBQ1ZITGN4SmZMTzJnU001UGxWQk5xZDJ5cnBoUUtNOXhGRXZsVWJIRXh2QjVMTlR4UzBTWERXODkxZWc?oc=5",
+      "published_at": "2026-03-26 07:43",
+      "source": "HPCwire",
+      "theme": "芯片与算力",
+      "brand": "Nvidia",
+      "source_brief": "这条消息更偏底层算力和成本变化，适合继续跟进。",
+      "ai_summary": "这条消息更偏底层算力和成本变化，适合继续跟进。AI 判断：Nvidia 这条动态属于“芯片与算力”信号，更值得盯成本、供给和推理价格会不会继续变化。"
+    },
+    {
+      "title": "Nvidia DLSS 5 游戏列表：迄今为止我们知道的所有受支持的游戏",
+      "original_title": "Nvidia DLSS 5 games list: Every supported title we know so far",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxObkxLYjhOY0NYUy16RjVLaW9Wa19nczBsUEZZYUxzSW4wUEZPN0pEb3JKYWx5N2I5RTVETklxRGRFTlpVd2k5MjlLcmNRWDdtUTlhZFFCcW5VWk9aaEZwRk40WEowTVlZZEFMbTFyekhaMkl2dzFyRUJMSmFOMmtmdTJxTm1pTDVUTlE?oc=5",
+      "published_at": "2026-03-26 07:26",
+      "source": "Mashable",
+      "theme": "芯片与算力",
+      "brand": "Nvidia",
+      "source_brief": "这条消息更偏底层算力和成本变化，适合继续跟进。",
+      "ai_summary": "这条消息更偏底层算力和成本变化，适合继续跟进。AI 判断：Nvidia 这条动态属于“芯片与算力”信号，更值得盯成本、供给和推理价格会不会继续变化。"
+    }
+  ],
+  "x_watchlist": [
+    {
+      "name": "Gemini",
+      "focus": "模型能力、工作流入口和开发者生态",
+      "trend": "产品细节在加密",
+      "status_line": "最近 4 条动态主要落在“模型发布”，更值得盯 模型能力、工作流入口和开发者生态。",
+      "updated_at": "2026-03-26 09:06",
+      "handles": [
+        "GeminiApp",
+        "GoogleDeepMind"
+      ],
+      "profile_url": "https://x.com/GeminiApp",
+      "highlights": [
+        {
+          "title": "R 致@GeminiApp：Lyria 3 Pro 今天向 Google AI Plus、Pro 和 Ultra 用户推出。开始使用 http://gemini.google.com…",
+          "original_title": "R to @GeminiApp: Lyria 3 Pro is rolling out today to Google AI Plus, Pro, and Ultra users.…",
+          "url": "https://nitter.net/GeminiApp/status/2036972945881653298#m",
+          "published_at": "2026-03-26 09:06",
+          "handle": "@GeminiApp",
+          "summary": "R 致@GeminiApp：Lyria 3 Pro 今天向 Google AI Plus、Pro 和 Ultra 用户推出。开始使用 http…"
+        },
+        {
+          "title": "Lyria 3 Pro 的增强定制功能提供了更多的空间来试验和演奏更长的曲目，因此您现在可以添加更多细节，在 Gemini 中将您的完整愿景变为现实。",
+          "original_title": "Lyria 3 Pro’s enhanced customization offers more space to experiment and play with longer t…",
+          "url": "https://nitter.net/GeminiApp/status/2036972294632071494#m",
+          "published_at": "2026-03-26 09:03",
+          "handle": "@GeminiApp",
+          "summary": "Lyria 3 Pro 的增强定制功能提供了更多的空间来试验和演奏更长的曲目，因此您现在可以添加更多细节，在 Gemini 中将您的完整愿景变…"
+        },
+        {
+          "title": "准备好使用 Lyria 3 Pro 调高音量了吗？ 🎶 明天（3 月 26 日）太平洋夏令时间上午 11:30 加入我们的 Gemini Discord，产品经理 Joel 将回来进…",
+          "original_title": "Ready to turn up the volume with Lyria 3 Pro? 🎶 Join us in the Gemini Discord tomorrow (3/2…",
+          "url": "https://nitter.net/GeminiApp/status/2036888720293716007#m",
+          "published_at": "2026-03-26 03:31",
+          "handle": "@GeminiApp",
+          "summary": "准备好使用 Lyria 3 Pro 调高音量了吗？ 🎶 明天（3 月 26 日）太平洋夏令时间上午 11:30 加入我们的 Gemini Di…"
+        }
+      ]
+    },
+    {
+      "name": "Grok",
+      "focus": "X 集成、实时搜索、多模态和 API 节奏",
+      "trend": "产品细节在加密",
+      "status_line": "最近 2 条动态主要落在“模型发布”，更值得盯 X 集成、实时搜索、多模态和 API 节奏。",
+      "updated_at": "2026-03-25 04:00",
+      "handles": [
+        "grok",
+        "xAI"
+      ],
+      "profile_url": "https://x.com/grok",
+      "highlights": [
+        {
+          "title": "Grok Imagine 多图像到视频和视频扩展现已在 API 上提供。最多使用 7 张图像来创建视频或将现有视频延长 10 秒。在这里尝试一下：https://x.ai/api/i…",
+          "original_title": "Grok Imagine multi-image to video and video extension are now available on API. Use up to 7…",
+          "url": "https://nitter.net/grok/status/2036533528847065108#m",
+          "published_at": "2026-03-25 04:00",
+          "handle": "@grok",
+          "summary": "Grok Imagine 多图像到视频和视频扩展现已在 API 上提供。最多使用 7 张图像来创建视频或将现有视频延长 10 秒。在这里尝试一…"
+        },
+        {
+          "title": "RT by @grok：突破：@xai 的 Grok Imagine 在 Multi Image to Video Arena 上获得总体第一，总体 Elo 为 1342。该团队首次…",
+          "original_title": "RT by @grok: BREAKING: Grok Imagine by @xai takes 1st overall on Multi Image to Video Arena…",
+          "url": "https://nitter.net/Designarena/status/2036533116605702176#m",
+          "published_at": "2026-03-25 03:58",
+          "handle": "@grok",
+          "summary": "RT by @grok：突破：@xai 的 Grok Imagine 在 Multi Image to Video Arena 上获得总体第一…"
+        }
+      ]
+    },
+    {
+      "name": "Claude",
+      "focus": "推理能力、Artifacts、团队协作和 API 产品化",
+      "trend": "产品细节在加密",
+      "status_line": "最近 4 条动态主要落在“模型发布”，更值得盯 推理能力、Artifacts、团队协作和 API 产品化。",
+      "updated_at": "2026-03-26 07:14",
+      "handles": [
+        "AnthropicAI"
+      ],
+      "profile_url": "https://x.com/AnthropicAI",
+      "highlights": [
+        {
+          "title": "工程博客新内容：我们如何设计克劳德代码自动模式。许多 Claude Code 用户让 Claude 在没有权限提示的情况下工作。自动模式是一个更安全的中间立场：我们构建并测试了做出批…",
+          "original_title": "New on the Engineering Blog: How we designed Claude Code auto mode. Many Claude Code users…",
+          "url": "https://nitter.net/AnthropicAI/status/2036944806317088921#m",
+          "published_at": "2026-03-26 07:14",
+          "handle": "@AnthropicAI",
+          "summary": "工程博客新内容：我们如何设计克劳德代码自动模式。许多 Claude Code 用户让 Claude 在没有权限提示的情况下工作。自动模式是一个…"
+        },
+        {
+          "title": "R 致@AnthropicAI：我们发现自 2025 年 11 月以来，消费者的使用变得不那么集中：前 10 项任务现在占对话的 19%，低于 24%。我们还看到个人查询的增加以及美…",
+          "original_title": "R to @AnthropicAI: We find that since November 2025, consumer use has become less concentra…",
+          "url": "https://nitter.net/AnthropicAI/status/2036499693920727463#m",
+          "published_at": "2026-03-25 01:45",
+          "handle": "@AnthropicAI",
+          "summary": "R 致@AnthropicAI：我们发现自 2025 年 11 月以来，消费者的使用变得不那么集中：前 10 项任务现在占对话的 19%，低于…"
+        },
+        {
+          "title": "人类经济指数的新内容：人们对克劳德的使用如何随着经验而变化。长期用户更有可能与 Claude 进行仔细迭代，并且不太可能给予其完全自主权。他们尝试更高价值的任务，并获得更成功的回应。",
+          "original_title": "New from the Anthropic Economic Index: how people’s use of Claude changes with experience.…",
+          "url": "https://nitter.net/AnthropicAI/status/2036499691571953848#m",
+          "published_at": "2026-03-25 01:45",
+          "handle": "@AnthropicAI",
+          "summary": "人类经济指数的新内容：人们对克劳德的使用如何随着经验而变化。长期用户更有可能与 Claude 进行仔细迭代，并且不太可能给予其完全自主权。他们…"
+        }
+      ]
+    },
+    {
+      "name": "ChatGPT",
+      "focus": "ChatGPT 功能更新、Agents、语音和工作流落地",
+      "trend": "产品细节在加密",
+      "status_line": "最近 4 条动态主要落在“产品更新”，更值得盯 ChatGPT 功能更新、Agents、语音和工作流落地。",
+      "updated_at": "2026-03-26 01:20",
+      "handles": [
+        "OpenAI"
+      ],
+      "profile_url": "https://x.com/OpenAI",
+      "highlights": [
+        {
+          "title": "R 致@OpenAI：在 Spotify 上收听 OpenAI 播客 https://open.spotify.com/show/0zojMEDizKMh3aTxnGLENP App…",
+          "original_title": "R to @OpenAI: Listen to the OpenAI Podcast on— Spotify https://open.spotify.com/show/0zojME…",
+          "url": "https://nitter.net/OpenAI/status/2036855700132147593#m",
+          "published_at": "2026-03-26 01:20",
+          "handle": "@OpenAI",
+          "summary": "R 致@OpenAI：在 Spotify 上收听 OpenAI 播客 https://open.spotify.com/show/0zojME…"
+        },
+        {
+          "title": "R 至 @OpenAI：有关我们模型规范方法的更多信息：https://openai.com/index/our-approach-to-the-model-spec/",
+          "original_title": "R to @OpenAI: More on our approach to the Model Spec: https://openai.com/index/our-approach…",
+          "url": "https://nitter.net/OpenAI/status/2036855698617938422#m",
+          "published_at": "2026-03-26 01:20",
+          "handle": "@OpenAI",
+          "summary": "R 至 @OpenAI：有关我们模型规范方法的更多信息：https://openai.com/index/our-approach-to-th…"
+        },
+        {
+          "title": "人工智能能做的事情越多，我们就越需要问它应该做什么和不应该做什么。 OpenAI 研究员 @w01fe 与主持人 @AndrewMayne 一起探索模型规范，这是定义模型行为方式的公…",
+          "original_title": "The more AI can do, the more we need to ask what it should and shouldn’t do. OpenAI researc…",
+          "url": "https://nitter.net/OpenAI/status/2036855694906057079#m",
+          "published_at": "2026-03-26 01:20",
+          "handle": "@OpenAI",
+          "summary": "人工智能能做的事情越多，我们就越需要问它应该做什么和不应该做什么。 OpenAI 研究员 @w01fe 与主持人 @AndrewMayne 一…"
+        }
+      ]
+    }
+  ],
+  "source_health": [
+    {
+      "name": "OpenAI / News",
+      "kind": "news",
+      "status": "ok",
+      "message": "5 条近 48 小时内容"
+    },
+    {
+      "name": "Google DeepMind / Blog",
+      "kind": "news",
+      "status": "ok",
+      "message": "1 条近 48 小时内容"
+    },
+    {
+      "name": "Google News / AI headlines",
+      "kind": "news",
+      "status": "ok",
+      "message": "98 条近 48 小时内容"
+    },
+    {
+      "name": "Google News / Big model companies",
+      "kind": "news",
+      "status": "ok",
+      "message": "94 条近 48 小时内容"
+    },
+    {
+      "name": "Google News / AI infra and agents",
+      "kind": "news",
+      "status": "ok",
+      "message": "99 条近 48 小时内容"
+    },
+    {
+      "name": "X / @GeminiApp",
+      "kind": "x",
+      "status": "ok",
+      "message": "12 条近 72 小时内容"
+    },
+    {
+      "name": "X / @GoogleDeepMind",
+      "kind": "x",
+      "status": "ok",
+      "message": "4 条近 72 小时内容"
+    },
+    {
+      "name": "X / @grok",
+      "kind": "x",
+      "status": "ok",
+      "message": "2 条近 72 小时内容"
+    },
+    {
+      "name": "X / @xAI",
+      "kind": "x",
+      "status": "stale",
+      "message": "源可用，但最近没有新内容"
+    },
+    {
+      "name": "X / @AnthropicAI",
+      "kind": "x",
+      "status": "ok",
+      "message": "7 条近 72 小时内容"
+    },
+    {
+      "name": "X / @OpenAI",
+      "kind": "x",
+      "status": "ok",
+      "message": "5 条近 72 小时内容"
+    }
+  ],
+  "notes": [
+    "X 动态默认通过 RSS 镜像获取，请把 X_RSS_TEMPLATE 设置成你可访问的镜像地址，例如 https://nitter.net/{handle}/rss。",
+    "英文内容会优先自动翻译成中文；如果翻译接口不可用，页面会回退到原文或半自动翻译结果。"
+  ]
+}

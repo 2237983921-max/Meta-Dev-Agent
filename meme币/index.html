@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MemeRadar Live - Meme币实时跟踪平台</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📡</text></svg>">
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-left">
+      <div class="logo">
+        <span class="logo-icon">📡</span>
+        <span class="logo-text">Meme<span class="accent">Radar</span> Live</span>
+        <span class="logo-badge">LIVE</span>
+      </div>
+    </div>
+    <div class="topbar-center">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input type="text" id="search-input" placeholder="输入 $PEPE 或代币名称，快速查看实时详情">
+        <kbd>⌘K</kbd>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" id="toggle-sound" title="声音提醒">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" id="toggle-alerts" title="提醒中心">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="badge" id="alert-badge">0</span>
+      </button>
+      <div class="connection-status" id="conn-status">
+        <span class="status-dot live"></span>
+        <span id="conn-status-text">DEX Screener 实时行情</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <ul class="nav-menu">
+        <li class="nav-item active" data-page="dashboard">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>仪表盘</span>
+        </li>
+        <li class="nav-item" data-page="feed">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 11a9 9 0 0 1 9 9"></path>
+            <path d="M4 4a16 16 0 0 1 16 16"></path>
+            <circle cx="5" cy="19" r="1"></circle>
+          </svg>
+          <span>实时信息流</span>
+        </li>
+        <li class="nav-item" data-page="trending">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+          <span>趋势代币</span>
+        </li>
+        <li class="nav-item" data-page="alerts">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span>提醒中心</span>
+          <span class="nav-badge" id="nav-alert-count">0</span>
+        </li>
+        <li class="nav-item" data-page="kol">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>社媒追踪</span>
+        </li>
+        <li class="nav-item" data-page="settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+          <span>设置</span>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="stats-mini">
+          <div class="stat-mini-item">
+            <span class="stat-mini-val" id="sidebar-tweets">0</span>
+            <span class="stat-mini-label">市场信号</span>
+          </div>
+          <div class="stat-mini-item">
+            <span class="stat-mini-val" id="sidebar-tokens">0</span>
+            <span class="stat-mini-label">发现代币</span>
+          </div>
+          <div class="stat-mini-item">
+            <span class="stat-mini-val" id="sidebar-watchlist">0</span>
+            <span class="stat-mini-label">观察列表</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page active" id="page-dashboard">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card-icon cyan">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 11a9 9 0 0 1 9 9"></path>
+                <path d="M4 4a16 16 0 0 1 16 16"></path>
+                <circle cx="5" cy="19" r="1"></circle>
+              </svg>
+            </div>
+            <div class="stat-card-data">
+              <div class="stat-card-value" id="stat-scanned">0</div>
+              <div class="stat-card-label">实时信号</div>
+            </div>
+            <div class="stat-card-trend up">+<span id="stat-scanned-rate">0</span>/分</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon green">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+            </div>
+            <div class="stat-card-data">
+              <div class="stat-card-value" id="stat-detected">0</div>
+              <div class="stat-card-label">跟踪币种</div>
+            </div>
+            <div class="stat-card-trend neutral" id="stat-market-mode">实时模式</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon rose">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+            </div>
+            <div class="stat-card-data">
+              <div class="stat-card-value" id="stat-alerts">0</div>
+              <div class="stat-card-label">未读提醒</div>
+            </div>
+            <div class="stat-card-trend hot">重点关注</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon amber">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1v22"></path>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </div>
+            <div class="stat-card-data">
+              <div class="stat-card-value" id="stat-watchlist">0</div>
+              <div class="stat-card-label">观察列表</div>
+            </div>
+            <div class="stat-card-trend neutral" id="watchlist-note">本地已保存</div>
+          </div>
+        </div>
+
+        <section class="hero-grid">
+          <article class="hero-card hero-primary">
+            <p class="eyebrow">Meme Coin Live Desk</p>
+            <h1>把真实链上行情和热点信号，收成一个能盯盘的工作台</h1>
+            <p class="hero-copy">
+              当前版本默认通过本地后端拉取 DEX Screener 官方实时数据，适合直接观察热门 meme 币、
+              新币、boost 加热、成交放量和项目社媒入口。
+            </p>
+            <div class="hero-actions">
+              <button class="btn-primary" id="hero-open-trending">查看热榜</button>
+              <button class="btn-outline" id="hero-open-settings">配置追踪规则</button>
+            </div>
+          </article>
+          <article class="hero-card hero-side">
+            <div class="hero-side-block">
+              <span class="hero-side-label">市场情绪</span>
+              <strong id="pulse-sentiment">等待实时数据</strong>
+              <p id="pulse-summary">连上实时行情后，这里会显示主导链、市场模式和最新热点节奏。</p>
+            </div>
+            <div class="hero-side-grid">
+              <div class="hero-kpi">
+                <span>热榜冠军</span>
+                <strong id="pulse-top-token">$PEPE</strong>
+              </div>
+              <div class="hero-kpi">
+                <span>高优先提醒</span>
+                <strong id="pulse-priority-alerts">0</strong>
+              </div>
+              <div class="hero-kpi">
+                <span>最近刷新</span>
+                <strong id="pulse-last-scan">刚启动</strong>
+              </div>
+              <div class="hero-kpi">
+                <span>活跃叙事</span>
+                <strong id="pulse-narrative">动物系</strong>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="panel panel-span-2">
+            <div class="panel-header">
+              <h2>实时市场信号</h2>
+              <div class="panel-actions">
+                <select id="feed-filter">
+                  <option value="all">全部信号</option>
+                  <option value="high">高热度</option>
+                  <option value="kol">Boost / 热门</option>
+                  <option value="new">新代币</option>
+                  <option value="watchlist">观察列表</option>
+                </select>
+                <button class="btn-sm" id="pause-feed" title="暂停/恢复信息流">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="feed-list" id="feed-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>热门 Meme 代币</h2>
+              <div class="panel-tabs">
+                <button class="tab" data-range="1h">1H</button>
+                <button class="tab active" data-range="24h">24H</button>
+                <button class="tab" data-range="7d">7D</button>
+              </div>
+            </div>
+            <div class="token-table">
+              <div class="token-table-header">
+                <span class="col-rank">#</span>
+                <span class="col-name">代币</span>
+                <span class="col-mentions" id="table-volume-label">24h 成交</span>
+                <span class="col-sentiment">情绪</span>
+                <span class="col-chart">趋势</span>
+                <span class="col-action"></span>
+              </div>
+              <div class="token-table-body" id="token-table-body"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>观察列表</h2>
+              <span class="panel-caption">点击热榜中的“追踪”即可加入</span>
+            </div>
+            <div class="watchlist-list" id="watchlist-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>高优先提醒</h2>
+              <button class="btn-sm btn-text" id="clear-alerts">全部已读</button>
+            </div>
+            <div class="alerts-list" id="alerts-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>信号优先级</h2>
+            </div>
+            <div class="signal-list" id="signal-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>话题热力图</h2>
+            </div>
+            <div class="heatmap-container" id="heatmap-container"></div>
+          </section>
+        </div>
+      </div>
+
+      <div class="page" id="page-feed">
+        <div class="page-header">
+          <h1>实时信息流</h1>
+          <p>用搜索、标签和观察列表快速筛选正在发酵的真实市场信号。</p>
+        </div>
+        <div class="full-feed-controls">
+          <div class="search-box compact">
+            <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            <input type="text" id="feed-search" placeholder="过滤信号、代币、链、叙事...">
+          </div>
+          <div class="filter-chips">
+            <button class="chip active" data-filter="all">全部</button>
+            <button class="chip" data-filter="watchlist">观察列表</button>
+            <button class="chip" data-filter="kol">Boost</button>
+            <button class="chip" data-filter="new">新代币</button>
+            <button class="chip" data-filter="pump">Pump.fun</button>
+            <button class="chip" data-filter="high">高热度</button>
+          </div>
+        </div>
+        <div class="feed-list full-feed" id="full-feed-list"></div>
+      </div>
+
+      <div class="page" id="page-trending">
+        <div class="page-header">
+          <h1>趋势 Meme 代币</h1>
+          <p>基于真实价格、成交量、流动性、boost 和关键词命中的综合信号卡片。</p>
+        </div>
+        <div class="trending-grid" id="trending-grid"></div>
+      </div>
+
+      <div class="page" id="page-alerts">
+        <div class="page-header">
+          <h1>提醒中心</h1>
+          <p>控制新币、Boost、量能异动和其他高优先市场信号的提醒规则。</p>
+        </div>
+        <div class="alert-settings">
+          <h3>提醒规则</h3>
+          <div class="setting-row">
+            <label>
+              <input type="checkbox" id="alert-new-token" checked>
+              检测到新 Meme 代币时提醒
+            </label>
+          </div>
+          <div class="setting-row">
+            <label>
+              <input type="checkbox" id="alert-kol" checked>
+              检测到 Boost / 官方加热时提醒
+            </label>
+          </div>
+          <div class="setting-row">
+            <label>
+              <input type="checkbox" id="alert-spike" checked>
+              检测到量能 / 动量异动时提醒 (阈值:
+              <input type="number" id="spike-threshold" value="50" min="10" max="500" class="inline-input">
+              次)
+            </label>
+          </div>
+          <div class="setting-row">
+            <label>
+              <input type="checkbox" id="alert-whale" checked>
+              其他高风险或异常信号时提醒
+            </label>
+          </div>
+        </div>
+        <div class="alerts-list full-alerts" id="full-alerts-list"></div>
+      </div>
+
+      <div class="page" id="page-kol">
+        <div class="page-header">
+          <h1>社媒追踪</h1>
+          <p>查看热门项目返回的 Twitter、Telegram 和官网链接，快速切到官方阵地。</p>
+        </div>
+        <div class="kol-grid" id="kol-grid"></div>
+      </div>
+
+      <div class="page" id="page-settings">
+        <div class="page-header">
+          <h1>设置</h1>
+          <p>平台默认使用本地后端拉取 DEX Screener 官方实时数据，表单内容会保存在浏览器本地。</p>
+        </div>
+        <div class="settings-container">
+          <div class="settings-group">
+            <h3>API 配置</h3>
+            <div class="setting-row">
+              <label for="twitter-api">X API Bearer Token</label>
+              <input type="password" class="setting-input" id="twitter-api" placeholder="可选，后续接 X API 时再填">
+            </div>
+            <div class="setting-row">
+              <label for="rpc-url">Solana RPC URL</label>
+              <input type="text" class="setting-input" id="rpc-url" placeholder="https://api.mainnet-beta.solana.com">
+            </div>
+            <div class="setting-row">
+              <label for="dex-api">DEX API Key</label>
+              <input type="text" class="setting-input" id="dex-api" placeholder="可选">
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>追踪配置</h3>
+            <div class="setting-row">
+              <label for="keywords">关键词种子列表</label>
+              <textarea class="setting-input" id="keywords" rows="4" placeholder="$PEPE, $DOGE, pump.fun, memecoin"></textarea>
+            </div>
+            <div class="setting-row">
+              <label for="scan-freq">刷新频率</label>
+              <select class="setting-input" id="scan-freq">
+                <option value="5">每 5 秒</option>
+                <option value="10">每 10 秒</option>
+                <option value="30">每 30 秒</option>
+                <option value="60">每分钟</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" id="save-settings">保存设置</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="token-modal">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="关闭">&times;</button>
+      <div class="modal-header">
+        <div class="modal-token-icon" id="modal-icon">🪙</div>
+        <div>
+          <h2 id="modal-name">Token Name</h2>
+          <span class="modal-ticker" id="modal-ticker">$TOKEN</span>
+          <span class="modal-chain" id="modal-chain">SOL</span>
+        </div>
+      </div>
+      <div class="modal-stats">
+        <div class="modal-stat">
+          <span class="modal-stat-label">实时价格</span>
+          <span class="modal-stat-value" id="modal-mentions">0</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">社媒数量</span>
+          <span class="modal-stat-value" id="modal-users">0</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">情绪分数</span>
+          <span class="modal-stat-value" id="modal-sentiment">0%</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">交易对年龄</span>
+          <span class="modal-stat-value" id="modal-discovered">-</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">信号分</span>
+          <span class="modal-stat-value" id="modal-score">0</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-label">24h 成交</span>
+          <span class="modal-stat-value" id="modal-volume">$0</span>
+        </div>
+      </div>
+      <div class="modal-chart-container">
+        <h3>实时走势</h3>
+        <canvas id="modal-chart" width="500" height="200"></canvas>
+      </div>
+      <div class="modal-tweets">
+        <h3>相关信号</h3>
+        <div id="modal-tweets-list"></div>
+      </div>
+      <div class="modal-actions">
+        <a class="btn-primary" id="modal-dex-link" href="#" target="_blank" rel="noreferrer">DEX 搜索</a>
+        <a class="btn-outline" id="modal-twitter-link" href="#" target="_blank" rel="noreferrer">X 搜索</a>
+        <button class="btn-outline" id="modal-track-btn">加入观察列表</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/chart.js"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

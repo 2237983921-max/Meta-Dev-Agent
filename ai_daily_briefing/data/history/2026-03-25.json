@@ -1,0 +1,346 @@
+{
+  "generated_at": "2026-03-25T17:43:18.051060+08:00",
+  "generated_label": "2026年03月25日 17:43",
+  "timezone": "Asia/Shanghai",
+  "mode": "live",
+  "overview": {
+    "headline": "03月25日 AI 早报：Gemini、Claude、ChatGPT值得先看",
+    "summary": "今天主线围绕 模型发布 / 产品更新 展开。行业新闻抓到 10 条，X 追踪抓到 9 条；如果只看 3 分钟，先盯住“帮助开发者为青少年打造更安全的人工智能体验”。",
+    "watchwords": [
+      "模型发布",
+      "产品更新"
+    ],
+    "quick_cards": [
+      {
+        "title": "今天先看什么",
+        "body": "帮助开发者为青少年打造更安全的人工智能体验；OpenAI 基金会的最新动态；OpenAI 将关闭 Sora AI 视频应用程序，将…"
+      },
+      {
+        "title": "圈内风向",
+        "body": "今天更偏 模型发布、产品更新，目前 9/11 个源刷新正常。"
+      },
+      {
+        "title": "X 上谁更活跃",
+        "body": "Gemini、Grok、Claude 这几条线更新更密。"
+      }
+    ]
+  },
+  "stats": {
+    "news_count": 10,
+    "x_count": 9,
+    "healthy_sources": 9,
+    "total_sources": 11
+  },
+  "top_news": [
+    {
+      "title": "帮助开发者为青少年打造更安全的人工智能体验",
+      "original_title": "Helping developers build safer AI experiences for teens",
+      "url": "https://openai.com/index/teen-safety-policies-gpt-oss-safeguard",
+      "published_at": "2026-03-24 19:00",
+      "source": "OpenAI / News",
+      "theme": "模型发布",
+      "brand": "ChatGPT",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：ChatGPT 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "OpenAI 基金会的最新动态",
+      "original_title": "Update on the OpenAI Foundation",
+      "url": "https://openai.com/index/update-on-the-openai-foundation",
+      "published_at": "2026-03-24 17:00",
+      "source": "OpenAI / News",
+      "theme": "产品更新",
+      "brand": "ChatGPT",
+      "source_brief": "这条消息更偏落地节奏，适合继续看开放范围和入口变化。",
+      "ai_summary": "这条消息更偏落地节奏，适合继续看开放范围和入口变化。AI 判断：ChatGPT 这条动态属于“产品更新”信号，更值得盯开放人群、入口位置和是否已经进入真实工作流。"
+    },
+    {
+      "title": "OpenAI 将关闭 Sora AI 视频应用程序，将重点转向企业 AI 和 ChatGPT 增长",
+      "original_title": "OpenAI to Shut Down Sora AI Video App, Shifts Focus to Enterprise AI and ChatGPT Growth",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQZXAtNG02aUJNZlBCbnNFekxuTnpkS2pZbmVEUTNsZFBNQW91NnhpcXlsU09yOTdwYWhXUjFVTFRVQThBZFZsYzRxeFlGYWpTZzdTNmlwWGJRN3Z4OUFGazFGNEdBdm8ycF90UVRsZ25ja0xBWENTa0lNcWFZMmhJQVJpZlNPaHVURjJjeU5tU3dGTUpIM3M0dXVncUNHaHR4S2s2WUN3ZEVaTEZHNzM0S3NjZ3E4X3R1cVU4eQ?oc=5",
+      "published_at": "2026-03-25 17:35",
+      "source": "ITP.net",
+      "theme": "模型发布",
+      "brand": "ChatGPT",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：ChatGPT 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "谷歌刚刚推出了由 Gemini 驱动的新暗网监控服务",
+      "original_title": "Google just launched a new Gemini-powered dark web monitoring service",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPcW5KWkl6cWwtWjA1eDZKNU9Lenl5YmYyeUZpNWxtdVVvbGxvNkU0dnlUVFAteUgwY3hUTVNhcWVUclptTVQ0S2lBcFo2cG9PSGtTT3VUd0pIWUY4SUptZnNsa2Z1ck4wUVlMeGZsQ3FObHgyX1lsRzRHZEotdmtLYzJXR1NJblN6M1BhQU9QNUVlcDhHN1lPN2c4REZFWWtUaUE?oc=5",
+      "published_at": "2026-03-25 17:23",
+      "source": "IT Pro",
+      "theme": "模型发布",
+      "brand": "Gemini",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Gemini 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "双子座，分数是多少？ Google TV 回顾比赛并深入学习",
+      "original_title": "Gemini, what's the score? Google TV recaps games, and dives deep to learn",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOU3dWXy04QnEtMmloejlwcUJzX2F1RzBERjRjODFfNy1jQzJOUTVWYk5yeFBUZGRYdThieVJlbGRkcWRacVk5RjlxWUlwOUNDZ2VrU081VXpndEk5RnBxOHVkVW4zSWt4NlRGMWllWXc5bTk4S2hmQ2JjQzc5QmtsamdNdEEySHBVblE4cUgyVUIzRFVhWDQxNzhMdFExbzZOV0RBN251Tm1SQVkyUHdGZzNNcTdLN25uQWNGb2NJQVRMWHA4Y1Nz?oc=5",
+      "published_at": "2026-03-25 17:11",
+      "source": "Android Central",
+      "theme": "模型发布",
+      "brand": "Gemini",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Gemini 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "Anthropic 切断了行动批准循环，让 Claude Code 做出决定",
+      "original_title": "Anthropic cuts action approval loop, lets Claude Code make the call",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNTjR3Y0lFSzd4WTNDLUNRb1BoX05YVzA1MnBDVTF1ckNQVnRsWkZNQkxRVTRNQ3cxcEV6aEF5Zl9XaGNMQW9mSFh6akp3Yk9JM3N4bTBGcDQ1SUJvdDRoVklyYTRpUGRjRHVOTU5BOWtQbTlwTVBiQlNaT05QdGJ3QTh3TUFkNi02MDlJ?oc=5",
+      "published_at": "2026-03-25 17:03",
+      "source": "Help Net Security",
+      "theme": "模型发布",
+      "brand": "Claude",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Claude 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "NVIDIA AI 推出 PivotRL：一种新的 AI 框架，可有效地将部署次数减少 4 倍，从而实现高代理精度",
+      "original_title": "NVIDIA AI Introduces PivotRL: A New AI Framework Achieving High Agentic Accuracy With 4x Fewer Rollout Turns Efficiently",
+      "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxNQ0dWVWstakYzSW1JTnpVcWt5MWVuSEN0WUZMcjVCOWZMUWx3VV9KUlg0cWIxcGhkdFM5TVI3aVJkSEFvVWJKMGNWbEx0bmdmdEptZHlvRk1DNV9xbUZTQjJHcTV6UHZ3S3dmV2Z2cmF3ZUVmdlhyNGFxYUowYmE2ZFBGRXJNd2tiYVo2MGs1X3hEcE1wVEFNZHZkRTF2VnBtTFgzeEsxemJfSGd4cUdVQWJEbDVfeEM5bzFuRTRFRGYtWVZ3bk1obTJVVTFRUTQ3ZWZBYWdhckhlcjZJY000M1JyZll4OFlsdGZ0d2FfTnoyQdIB9wFBVV95cUxOSURGeEEwS3ViS1F0TTNNWmh2ZFhveFBVV2ZvU0dWRGhvcW9xREd4eXpZYkw4TW1tb1Rvbmk3YUhLN3ZQWldHdERrWmpXTGRVMUxEclNkVEUtOG5EOVRhWUhjeEtPZndxQzRaN19DYldhMjhCUEl1S1FrUjA0TDhKXzFFNE85akx0RUZGSV82amZYdlctUzRDQTgzcWliVjJwREh2ZS1iSGdYcThvbTJ0ZDMyeW9zMWJBZ2cxZEw1ZmhWbnNzWlVzei13NWJZS2hGRzNUZjN1VkVndWo5RllaTjBFRlY2NWNTLUd1cG1mZ3lFM005UkpJ?oc=5",
+      "published_at": "2026-03-25 16:39",
+      "source": "MarkTechPost",
+      "theme": "产品更新",
+      "brand": "Nvidia",
+      "source_brief": "这条消息更偏落地节奏，适合继续看开放范围和入口变化。",
+      "ai_summary": "这条消息更偏落地节奏，适合继续看开放范围和入口变化。AI 判断：Nvidia 这条动态属于“产品更新”信号，更值得盯开放人群、入口位置和是否已经进入真实工作流。"
+    },
+    {
+      "title": "Premio 在 ISC West 2026 上推出两款新型号，扩展 JCO-1000-ORN 系列 NVIDIA Jetson Edge AI 计算机",
+      "original_title": "Premio Expands JCO-1000-ORN Series NVIDIA Jetson Edge AI Computers with Two New Models at ISC West 2026",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPUC1aQURxYmtJc3Z1Nzg1VFc5ZlhsdmpNWU9Uc0E4WDJRVzlJS1BUbmR0Mlo1ZXpVbXRmZmRsbEFUVGI0Wm9qVXNxNFo4a3Iyd1Q1ZnA3WnAxZE15R091MmtrYjZWZ3BxUjk5SjF1VDJJbGZxU1NpY29qNUpKTDZjenpaRDlVNkhnN0lsWnA4S09EcmNXZnBoSUtGVWEwa1ZObDBZMm9oRy1SQ0g5TjVmZWNYVHM?oc=5",
+      "published_at": "2026-03-25 16:36",
+      "source": "The National Law Review",
+      "theme": "模型发布",
+      "brand": "Nvidia",
+      "source_brief": "Premio 在 ISC West 2026 上推出两款新型号，扩展 JCO-1000-ORN 系列 NVIDIA Jetson Edge A…",
+      "ai_summary": "Premio 在 ISC West 2026 上推出两款新型号，扩展 JCO-1000-O…。AI 判断：Nvidia 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "Claude Code 推出自动模式：消除长时间任务的重复批准——比危险模式更安全",
+      "original_title": "Claude Code Introduces Auto Mode: Eliminates Repeated Approvals for Long Tasks—Safer Than Dangerous Mode",
+      "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9iTUNlZmV1SFNMRGRtQTdjWXBka3ZaakNlSVlxOERPNGZjalJNOFZIbjV3R0V0RGcwbHkyaWZIZlN1NExKV3dOcm02NEV1VFk0UUpMUjVyV2VpUQ?oc=5",
+      "published_at": "2026-03-25 16:29",
+      "source": "深潮TechFlow",
+      "theme": "模型发布",
+      "brand": "Claude",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Claude 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    },
+    {
+      "title": "《星际迷航》给克劳德、双子座和 ChatGPT 的真实教训",
+      "original_title": "Star Trek's Real Lesson For Claude, Gemini And ChatGPT",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQS21peUF6OVZsY3did2NHR2tIS3BKRnhES3pOdkJadDRpVVp4dnE5ZDkzRWdkR0hiekRjUURYOENfdE91TkdJOHg0RnVEQ2wyUzhCWlRJeXNpNUUzQi1ZU3ZBYlhHTlJaZzZWTDlxVHhGMHBnaG1JOG1HUVdwWl9jMmlBWkdfWVE1SHBscUstWUlhQmVzVEZ1a0pxVGRzR2FHLTU0UkdCcUg1dw?oc=5",
+      "published_at": "2026-03-25 16:05",
+      "source": "Forbes",
+      "theme": "模型发布",
+      "brand": "Gemini",
+      "source_brief": "这条消息大概率会影响接下来一周的模型讨论热度。",
+      "ai_summary": "这条消息大概率会影响接下来一周的模型讨论热度。AI 判断：Gemini 这条动态属于“模型发布”信号，更值得盯能力边界、开放范围和会不会带动下一轮模型对比。"
+    }
+  ],
+  "x_watchlist": [
+    {
+      "name": "Gemini",
+      "focus": "模型能力、工作流入口和开发者生态",
+      "trend": "发布节奏偏快",
+      "status_line": "最近 3 条动态主要落在“模型发布”，更值得盯 模型能力、工作流入口和开发者生态。",
+      "updated_at": "2026-03-25 02:38",
+      "handles": [
+        "GeminiApp",
+        "GoogleDeepMind"
+      ],
+      "profile_url": "https://x.com/GeminiApp",
+      "highlights": [
+        {
+          "title": "RT @GeminiApp：我从实习生起就在@Google，从来没有比这更激动人心的时刻了。这个地方正在脉动。我们正在招聘:) @GeminiApp 或 @GoogleAIStudi…",
+          "original_title": "RT by @GeminiApp: I've been at @Google since I was an intern, and there's never been a more…",
+          "url": "https://nitter.net/joshwoodward/status/2036513009661780291#m",
+          "published_at": "2026-03-25 02:38",
+          "handle": "@GeminiApp",
+          "summary": "RT @GeminiApp：我从实习生起就在@Google，从来没有比这更激动人心的时刻了。这个地方正在脉动。我们正在招聘:) @Gemini…"
+        },
+        {
+          "title": "观看 Gemini 3.1 Flash-Lite 生成网站的速度有多快。 ⚡ 当您点击、搜索和导航时，该浏览器会实时创建每个页面。尝试一下 → https://goo.gle/4t9…",
+          "original_title": "Watch how fast Gemini 3.1 Flash-Lite can generate websites. ⚡ This browser creates each pag…",
+          "url": "https://nitter.net/GoogleDeepMind/status/2036483295983100314#m",
+          "published_at": "2026-03-25 00:40",
+          "handle": "@GoogleDeepMind",
+          "summary": "观看 Gemini 3.1 Flash-Lite 生成网站的速度有多快。 ⚡ 当您点击、搜索和导航时，该浏览器会实时创建每个页面。尝试一下 →…"
+        },
+        {
+          "title": "固定：Google DeepMind 🤝 敏捷机器人 我们新的研究合作伙伴关系将把 Gemini 基础模型与其硬件集成，以帮助构建下一代更有用的机器人。了解更多 → https://…",
+          "original_title": "Pinned: Google DeepMind 🤝 Agile Robots Our new research partnership will integrate the Gemi…",
+          "url": "https://nitter.net/GoogleDeepMind/status/2036418139672482229#m",
+          "published_at": "2026-03-24 20:21",
+          "handle": "@GoogleDeepMind",
+          "summary": "固定：Google DeepMind 🤝 敏捷机器人 我们新的研究合作伙伴关系将把 Gemini 基础模型与其硬件集成，以帮助构建下一代更有用…"
+        }
+      ]
+    },
+    {
+      "name": "Grok",
+      "focus": "X 集成、实时搜索、多模态和 API 节奏",
+      "trend": "产品细节在加密",
+      "status_line": "最近 2 条动态主要落在“模型发布”，更值得盯 X 集成、实时搜索、多模态和 API 节奏。",
+      "updated_at": "2026-03-25 04:00",
+      "handles": [
+        "grok",
+        "xAI"
+      ],
+      "profile_url": "https://x.com/grok",
+      "highlights": [
+        {
+          "title": "Grok Imagine 多图像到视频和视频扩展现已在 API 上提供。最多使用 7 张图像来创建视频或将现有视频延长 10 秒。在这里尝试一下：https://x.ai/api/i…",
+          "original_title": "Grok Imagine multi-image to video and video extension are now available on API. Use up to 7…",
+          "url": "https://nitter.net/grok/status/2036533528847065108#m",
+          "published_at": "2026-03-25 04:00",
+          "handle": "@grok",
+          "summary": "Grok Imagine 多图像到视频和视频扩展现已在 API 上提供。最多使用 7 张图像来创建视频或将现有视频延长 10 秒。在这里尝试一…"
+        },
+        {
+          "title": "RT by @grok：突破：@xai 的 Grok Imagine 在 Multi Image to Video Arena 上获得总体第一，总体 Elo 为 1342。该团队首次…",
+          "original_title": "RT by @grok: BREAKING: Grok Imagine by @xai takes 1st overall on Multi Image to Video Arena…",
+          "url": "https://nitter.net/Designarena/status/2036533116605702176#m",
+          "published_at": "2026-03-25 03:58",
+          "handle": "@grok",
+          "summary": "RT by @grok：突破：@xai 的 Grok Imagine 在 Multi Image to Video Arena 上获得总体第一…"
+        }
+      ]
+    },
+    {
+      "name": "Claude",
+      "focus": "推理能力、Artifacts、团队协作和 API 产品化",
+      "trend": "产品细节在加密",
+      "status_line": "最近 4 条动态主要落在“模型发布”，更值得盯 推理能力、Artifacts、团队协作和 API 产品化。",
+      "updated_at": "2026-03-25 01:45",
+      "handles": [
+        "AnthropicAI"
+      ],
+      "profile_url": "https://x.com/AnthropicAI",
+      "highlights": [
+        {
+          "title": "R 致@AnthropicAI：我们发现自 2025 年 11 月以来，消费者的使用变得不那么集中：前 10 项任务现在占对话的 19%，低于 24%。我们还看到个人查询的增加以及美…",
+          "original_title": "R to @AnthropicAI: We find that since November 2025, consumer use has become less concentra…",
+          "url": "https://nitter.net/AnthropicAI/status/2036499693920727463#m",
+          "published_at": "2026-03-25 01:45",
+          "handle": "@AnthropicAI",
+          "summary": "R 致@AnthropicAI：我们发现自 2025 年 11 月以来，消费者的使用变得不那么集中：前 10 项任务现在占对话的 19%，低于…"
+        },
+        {
+          "title": "人类经济指数的新内容：人们对克劳德的使用如何随着经验而变化。长期用户更有可能与 Claude 进行仔细迭代，并且不太可能给予其完全自主权。他们尝试更高价值的任务，并获得更成功的回应。",
+          "original_title": "New from the Anthropic Economic Index: how people’s use of Claude changes with experience.…",
+          "url": "https://nitter.net/AnthropicAI/status/2036499691571953848#m",
+          "published_at": "2026-03-25 01:45",
+          "handle": "@AnthropicAI",
+          "summary": "人类经济指数的新内容：人们对克劳德的使用如何随着经验而变化。长期用户更有可能与 Claude 进行仔细迭代，并且不太可能给予其完全自主权。他们…"
+        },
+        {
+          "title": "人类工程博客的新内容：我们如何使用多代理工具进一步推动克劳德在前端设计和长期运行的自主软件工程方面的发展。了解更多：https://www.anthropic.com/enginee…",
+          "original_title": "New on the Anthropic Engineering Blog: How we use a multi-agent harness to push Claude furt…",
+          "url": "https://nitter.net/AnthropicAI/status/2036481033621623056#m",
+          "published_at": "2026-03-25 00:31",
+          "handle": "@AnthropicAI",
+          "summary": "人类工程博客的新内容：我们如何使用多代理工具进一步推动克劳德在前端设计和长期运行的自主软件工程方面的发展。了解更多：https://www.a…"
+        }
+      ]
+    },
+    {
+      "name": "ChatGPT",
+      "focus": "ChatGPT 功能更新、Agents、语音和工作流落地",
+      "trend": "持续保持热度",
+      "status_line": "最近 1 条动态主要落在“模型发布”，更值得盯 ChatGPT 功能更新、Agents、语音和工作流落地。",
+      "updated_at": "2026-03-24 04:47",
+      "handles": [
+        "OpenAI"
+      ],
+      "profile_url": "https://x.com/OpenAI",
+      "highlights": [
+        {
+          "title": "现在可以更轻松地查找、重用和构建您在 ChatGPT 中上传和创建的文件。您可以使用工具栏中的最近文件在聊天中快速引用文件，向 ChatGPT 询问您上传的内容，或者在网络侧边栏的新…",
+          "original_title": "It’s now easier to find, reuse, and build on the files you upload and create in ChatGPT. Yo…",
+          "url": "https://nitter.net/OpenAI/status/2036183180219392103#m",
+          "published_at": "2026-03-24 04:47",
+          "handle": "@OpenAI",
+          "summary": "现在可以更轻松地查找、重用和构建您在 ChatGPT 中上传和创建的文件。您可以使用工具栏中的最近文件在聊天中快速引用文件，向 ChatGPT…"
+        }
+      ]
+    }
+  ],
+  "source_health": [
+    {
+      "name": "OpenAI / News",
+      "kind": "news",
+      "status": "ok",
+      "message": "3 条近 48 小时内容"
+    },
+    {
+      "name": "Google DeepMind / Blog",
+      "kind": "news",
+      "status": "stale",
+      "message": "源可用，但最近没有新内容"
+    },
+    {
+      "name": "Google News / AI headlines",
+      "kind": "news",
+      "status": "ok",
+      "message": "94 条近 48 小时内容"
+    },
+    {
+      "name": "Google News / Big model companies",
+      "kind": "news",
+      "status": "ok",
+      "message": "95 条近 48 小时内容"
+    },
+    {
+      "name": "Google News / AI infra and agents",
+      "kind": "news",
+      "status": "ok",
+      "message": "99 条近 48 小时内容"
+    },
+    {
+      "name": "X / @GeminiApp",
+      "kind": "x",
+      "status": "ok",
+      "message": "1 条近 72 小时内容"
+    },
+    {
+      "name": "X / @GoogleDeepMind",
+      "kind": "x",
+      "status": "ok",
+      "message": "2 条近 72 小时内容"
+    },
+    {
+      "name": "X / @grok",
+      "kind": "x",
+      "status": "ok",
+      "message": "2 条近 72 小时内容"
+    },
+    {
+      "name": "X / @xAI",
+      "kind": "x",
+      "status": "stale",
+      "message": "源可用，但最近没有新内容"
+    },
+    {
+      "name": "X / @AnthropicAI",
+      "kind": "x",
+      "status": "ok",
+      "message": "6 条近 72 小时内容"
+    },
+    {
+      "name": "X / @OpenAI",
+      "kind": "x",
+      "status": "ok",
+      "message": "1 条近 72 小时内容"
+    }
+  ],
+  "notes": [
+    "X 动态默认通过 RSS 镜像获取，请把 X_RSS_TEMPLATE 设置成你可访问的镜像地址，例如 https://nitter.net/{handle}/rss。",
+    "英文内容会优先自动翻译成中文；如果翻译接口不可用，页面会回退到原文或半自动翻译结果。"
+  ]
+}

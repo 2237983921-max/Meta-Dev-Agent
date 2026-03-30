@@ -1,0 +1,184 @@
+// /home/user/meme-tracker/js/tracker.js
+// ===== 代币追踪引擎 =====
+
+class MemeTracker {
+  constructor() {
+    this.tokenDatabase = new Map();
+    this.tweetHistory = [];
+    this.alerts = [];
+    this.tweetsScanned = 0;
+    this.isRunning = false;
+    this.soundEnabled = true;
+    this.feedPaused = false;
+    this.scanInterval = null;
+
+    // 初始化已知代币
+    DATA.knownTokens.forEach(t => {
+      this.tokenDatabase.set(t.symbol, {
+        ...t,
+        sparkline: generateSparklineData(20),
+        recentMentions: [],
+        firstSeen: new Date(Date.now() - Math.random() * 86400000 * 7),
+        uniqueUsers: new Set(),
+      });
+    });
+  }
+
+  start() {
+    this.isRunning = true;
+    this.scanInterval = setInterval(() => this.scan(), 1500 + Math.random() * 2000);
+    // 初始立即扫描几条
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => this.scan(), i * 300);
+    }
+  }
+
+  stop() {
+    this.isRunning = false;
+    if (this.scanInterval) clearInterval(this.scanInterval);
+  }
+
+  scan() {
+    if (!this.isRunning) return;
+
+    const tweet = generateRandomTweet();
+    this.tweetsScanned++;
+    this.tweetHistory.unshift(tweet);
+    if (this.tweetHistory.length > 200) this.tweetHistory.pop();
+
+    // 处理代币数据
+    this.processToken(tweet);
+
+    // 触发事件
+    if (!this.feedPaused) {
+      this.onNewTweet?.(tweet);
+    }
+    this.onStatsUpdate?.();
+  }
+
+  processToken(tweet) {
+    const { token, user } = tweet;
+
+    if (!this.tokenDatabase.has(token.symbol)) {
+      // 新代币首次发现
+      this.tokenDatabase.set(token.symbol, {
+        ...token,
+        detected: true,
+        mentions: 1,
+        sentiment: Math.floor(Math.random() * 30) + 55,
+        sparkline: generateSparklineData(20),
+        recentMentions: [tweet],
+        firstSeen: new Date(),
+        uniqueUsers: new Set([user.handle]),
+      });
+
+      // 新代币提醒
+      this.createAlert({
+        type: 'new-token',
+        icon: '🆕',
+        title: `发现新 Meme 代币: ${token.symbol}`,
+        desc: `${token.name} (${token.chain}) 首次被检测到，来自 ${user.handle} 的推文`,
+        token: token,
+      });
+    } else {
+      const t = this.tokenDatabase.get(token.symbol);
+      t.mentions++;
+      t.recentMentions.unshift(tweet);
+      if (t.recentMentions.length > 50) t.recentMentions.pop();
+      t.uniqueUsers.add(user.handle);
+
+      // 更新 sparkline
+      const lastVal = t.sparkline[t.sparkline.length - 1];
+      t.sparkline.push(lastVal + (Math.random() - 0.3) * 10);
+      if (t.sparkline.length > 30) t.sparkline.shift();
+
+      // 情绪微调
+      t.sentiment = Math.min(100, Math.max(0, t.sentiment + (Math.random() - 0.45) * 5));
+
+      // KOL 提及提醒
+      if (tweet.isKol && Math.random() < 0.6) {
+        this.createAlert({
+          type: 'kol-mention',
+          icon: '👑',
+          title: `KOL ${user.name} 提及 ${token.symbol}`,
+          desc: tweet.text.substring(0, 80) + '...',
+          token: token,
+        });
+      }
+
+      // 提及量激增提醒
+      if (t.mentions % 50 === 0 && Math.random() < 0.5) {
+        this.createAlert({
+          type: 'spike',
+          icon: '📈',
+          title: `${token.symbol} 提及量激增!`,
+          desc: `已达 ${t.mentions} 次提及，${t.uniqueUsers.size} 个独立用户讨论`,
+          token: token,
+        });
+      }
+
+      // 鲸鱼提醒
+      if (tweet.isWhale) {
+        this.createAlert({
+          type: 'whale',
+          icon: '🐋',
+          title: `鲸鱼关注 ${token.symbol}`,
+          desc: tweet.text.substring(0, 80) + '...',
+          token: token,
+        });
+      }
+    }
+  }
+
+  createAlert(alert) {
+    const alertObj = {
+      ...alert,
+      id: Date.now() + Math.random(),
+      timestamp: new Date(),
+      read: false,
+    };
+    this.alerts.unshift(alertObj);
+    if (this.alerts.length > 100) this.alerts.pop();
+
+    this.onNewAlert?.(alertObj);
+
+    // 播放声音
+    if (this.soundEnabled) {
+      this.playAlertSound();
+    }
+  }
+
+  playAlertSound() {
+    try {
+      const actx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = actx.createOscillator();
+      const gain = actx.createGain();
+      osc.connect(gain);
+      gain.connect(actx.destination);
+      osc.frequency.setValueAtTime(880, actx.currentTime);
+      osc.frequency.setValueAtTime(1100, actx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.1, actx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.3);
+      osc.start(actx.currentTime);
+      osc.stop(actx.currentTime + 0.3);
+    } catch (e) { /* 静默失败 */ }
+  }
+
+  getTrendingTokens() {
+    return Array.from(this.tokenDatabase.values())
+      .sort((a, b) => b.mentions - a.mentions);
+  }
+
+  getTokenData(symbol) {
+    return this.tokenDatabase.get(symbol);
+  }
+
+  getStats() {
+    return {
+      scanned: this.tweetsScanned,
+      detected: this.tokenDatabase.size,
+      alerts: this.alerts.filter(a => !a.read).length,
+      trending: Array.from(this.tokenDatabase.values()).filter(t => t.mentions > 100).length,
+    };
+  }
+}

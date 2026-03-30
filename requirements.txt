@@ -1,0 +1,6 @@
+faster-whisper
+numpy
+pyserial
+pyttsx3
+sentence-transformers
+sounddevice

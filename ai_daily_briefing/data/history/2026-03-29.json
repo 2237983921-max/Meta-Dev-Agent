@@ -1,0 +1,318 @@
+{
+  "generated_at": "2026-03-29T23:36:00+08:00",
+  "generated_label": "2026年03月29日 23:36",
+  "timezone": "Asia/Shanghai",
+  "mode": "live",
+  "overview": {
+    "headline": "03月29日 AI 早报：大厂今天偏打磨产品，没有超大新发布",
+    "summary": "3月29日这轮可核实的官方动态里，没有出现新的重磅模型同日发布，主线转向产品细节打磨、模型分层和企业化推进。今天手动回填了 8 条高可信更新，其中最值得盯的是 ChatGPT 模型选择器简化、Anthropic 对 Claude 使用趋势的新研究，以及 Gemini 3.1 Flash-Lite 的低成本推进。",
+    "watchwords": [
+      "产品更新",
+      "模型分层",
+      "企业化"
+    ],
+    "quick_cards": [
+      {
+        "title": "今天先看什么",
+        "body": "先看 ChatGPT 模型选择器更新、Anthropic 的 81,000 用户研究，以及 Gemini 3.1 Flash-Lite。"
+      },
+      {
+        "title": "圈内风向",
+        "body": "今天更偏 产品更新、模型分层、企业化，目前 4/11 个源完成官方网页核验，其余自动抓取源仍异常。"
+      },
+      {
+        "title": "X 上谁更活跃",
+        "body": "由于本地 X RSS 镜像不可达，今天改用官方网页追踪；ChatGPT、Gemini、Claude 的官网更新密度高于 Grok。"
+      }
+    ]
+  },
+  "stats": {
+    "news_count": 8,
+    "x_count": 8,
+    "healthy_sources": 4,
+    "total_sources": 11
+  },
+  "top_news": [
+    {
+      "title": "Anthropic 发布 8.1 万用户调研，Claude 使用从集中任务走向更分散场景",
+      "original_title": "What 81,000 people want from AI",
+      "url": "https://www.anthropic.com/news",
+      "published_at": "2026-03-18 00:00",
+      "source": "Anthropic / Newsroom",
+      "theme": "产品更新",
+      "brand": "Claude",
+      "source_brief": "这不是新模型发布，但它说明 Claude 的真实使用正从少数高频任务扩散到更广泛的工作流，适合继续跟踪企业落地和高价值任务迁移。",
+      "ai_summary": "Anthropic 把焦点放到 Claude 的真实使用方式而不是单纯跑分。AI 判断：这类研究会影响产品路线，意味着 Claude 后续更可能继续强化团队协作、长流程任务和可控自动化。"
+    },
+    {
+      "title": "ChatGPT 简化模型选择器，默认把能力层级收敛为 Instant、Thinking、Pro",
+      "original_title": "Updates to the model picker in ChatGPT",
+      "url": "https://help.openai.com/en/articles/6825453-how-can-i-integrate-chatgpt-with-my-app",
+      "published_at": "2026-03-17 00:00",
+      "source": "OpenAI / Help Center",
+      "theme": "产品更新",
+      "brand": "ChatGPT",
+      "source_brief": "这是明显的产品层重构，目标是降低普通用户对模型差异的理解成本，同时把更复杂的控制项收进配置页。",
+      "ai_summary": "OpenAI 这次不是发新模型，而是在重新包装模型选择体验。AI 判断：ChatGPT 的重点正在从堆选项转向隐藏复杂度，让更多用户直接吃到自动切换和分层推理能力。"
+    },
+    {
+      "title": "OpenAI 更新 GPT-5.3 Instant，继续压低对话里的“提示感”和悬念式措辞",
+      "original_title": "GPT-5.3 Instant update",
+      "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+      "published_at": "2026-03-16 00:00",
+      "source": "OpenAI / Help Center",
+      "theme": "模型发布",
+      "brand": "ChatGPT",
+      "source_brief": "这类看起来细碎的模型调参，其实最容易直接影响日常使用体感，尤其是跟进式问答、助手语气和生成风格。",
+      "ai_summary": "OpenAI 在继续微调 ChatGPT 的默认交互风格。AI 判断：短期内用户感受到的变化会更像“更顺手”，而不是能力边界突然跃迁。"
+    },
+    {
+      "title": "Google 推出 Gemini 3.1 Flash-Lite，继续把高吞吐低成本模型往下打",
+      "original_title": "Gemini 3.1 Flash-Lite: Built for intelligence at scale",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/",
+      "published_at": "2026-03-03 00:00",
+      "source": "Google / Gemini Models",
+      "theme": "模型发布",
+      "brand": "Gemini",
+      "source_brief": "Gemini 这条线最值得看的不是单次性能，而是 Google 继续把便宜、快、可规模化的模型压到更适合大流量工作负载的位置。",
+      "ai_summary": "Gemini 3.1 Flash-Lite 说明 Google 正在补齐高频开发者场景的成本曲线。AI 判断：接下来更值得盯的是 AI Studio、Vertex AI 和 Search 等入口会怎么把这类模型进一步铺开。"
+    },
+    {
+      "title": "Claude Sonnet 4.6 成为 Anthropic 当下最重要的默认工作马模型",
+      "original_title": "Introducing Claude Sonnet 4.6",
+      "url": "https://www.anthropic.com/news/claude-sonnet-4-6?category=crm",
+      "published_at": "2026-02-17 00:00",
+      "source": "Anthropic / Newsroom",
+      "theme": "模型发布",
+      "brand": "Claude",
+      "source_brief": "Anthropic 把 Sonnet 4.6 定位成编码、代理和专业工作的主力型号，重点是更高性价比和更长上下文，而不是只强调旗舰名号。",
+      "ai_summary": "Claude 的产品节奏仍然围绕“默认能不能用在真工作里”展开。AI 判断：Sonnet 4.6 继续加固了 Anthropic 在代码、长上下文和代理工作流里的竞争位置。"
+    },
+    {
+      "title": "Google 在 2 月发布 Gemini 3.1 Pro，把复杂任务入口继续推向 AI Studio、Vertex AI 和 Gemini App",
+      "original_title": "Gemini 3.1 Pro: A smarter model for your most complex tasks",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/",
+      "published_at": "2026-02-19 00:00",
+      "source": "Google / Gemini Models",
+      "theme": "模型发布",
+      "brand": "Gemini",
+      "source_brief": "Gemini 3.1 Pro 仍是 Google 复杂推理和代理叙事的核心支点，和 Flash-Lite 一起形成明显分层。",
+      "ai_summary": "Google 现在的 Gemini 产品线已经更像一个清晰分层的模型组合。AI 判断：Pro 负责复杂任务，Flash-Lite 负责规模和成本，后续看点会落在默认路由和入口整合。"
+    },
+    {
+      "title": "xAI 宣布并入 SpaceX，算力、资金和产品线叙事进一步绑定",
+      "original_title": "xAI joins SpaceX",
+      "url": "https://x.ai/news/xai-joins-spacex",
+      "published_at": "2026-02-02 00:00",
+      "source": "xAI / News",
+      "theme": "资本与合作",
+      "brand": "Grok",
+      "source_brief": "这条消息对 Grok 的影响不在模型参数，而在于 xAI 未来的算力组织方式、资金效率和硬件协同预期。",
+      "ai_summary": "xAI 与 SpaceX 绑定后，Grok 的后续推进会更明显地依赖大规模基础设施故事。AI 判断：对外部观察者来说，这比单次小版本更新更值得盯。"
+    },
+    {
+      "title": "xAI 推出 Grok Imagine API，把视频、图像和音频生成能力做成统一接口",
+      "original_title": "Grok Imagine API",
+      "url": "https://x.ai/news/grok-imagine-api",
+      "published_at": "2026-01-28 00:00",
+      "source": "xAI / News",
+      "theme": "产品更新",
+      "brand": "Grok",
+      "source_brief": "Grok 的产品节奏仍然强调原生多模态和创作工作流，这次更明显地往 API 商品化推进。",
+      "ai_summary": "xAI 把 Grok 的多模态卖点进一步产品化了。AI 判断：如果后面再叠加更强的快速推理模型，Grok 会继续朝“实时信息 + 多模态生成”这条组合拳走。"
+    }
+  ],
+  "x_watchlist": [
+    {
+      "name": "Gemini",
+      "focus": "模型能力、工作流入口和开发者生态",
+      "trend": "开发者侧继续提速",
+      "status_line": "过去一个月最实质的变化是 Gemini 3.1 Flash-Lite 和 3.1 Pro 的分层推进；今天没有拿到新的 X 镜像内容。",
+      "updated_at": "2026-03-03 00:00",
+      "handles": [
+        "GeminiApp",
+        "GoogleDeepMind"
+      ],
+      "profile_url": "https://x.com/GeminiApp",
+      "highlights": [
+        {
+          "title": "Gemini 3.1 Flash-Lite 进入预览，主打高吞吐、低成本和更快响应",
+          "original_title": "Gemini 3.1 Flash-Lite: Built for intelligence at scale",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/",
+          "published_at": "2026-03-03 00:00",
+          "handle": "@GeminiApp",
+          "summary": "Google 继续把 Gemini 往更适合高频开发者流量的成本区间下探。"
+        },
+        {
+          "title": "Gemini 3.1 Pro 继续承担复杂任务和高阶推理定位",
+          "original_title": "Gemini 3.1 Pro: A smarter model for your most complex tasks",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/",
+          "published_at": "2026-02-19 00:00",
+          "handle": "@GoogleDeepMind",
+          "summary": "Google 的 Gemini 线已经更明确地形成 Pro 和 Lite 的角色分工。"
+        }
+      ]
+    },
+    {
+      "name": "Grok",
+      "focus": "X 集成、实时搜索、多模态和 API 节奏",
+      "trend": "多模态与企业化并行",
+      "status_line": "官方网页能确认到的最新重点还是 Grok Imagine API 和 xAI 并入 SpaceX；今天没有新的 X 镜像更新。",
+      "updated_at": "2026-02-02 00:00",
+      "handles": [
+        "grok",
+        "xAI"
+      ],
+      "profile_url": "https://x.com/grok",
+      "highlights": [
+        {
+          "title": "xAI 并入 SpaceX，Grok 后续叙事更深绑定算力和基础设施",
+          "original_title": "xAI joins SpaceX",
+          "url": "https://x.ai/news/xai-joins-spacex",
+          "published_at": "2026-02-02 00:00",
+          "handle": "@xAI",
+          "summary": "这会影响市场对 Grok 资金、算力和长线部署能力的判断。"
+        },
+        {
+          "title": "Grok Imagine API 主打视频、图像和音频统一生成接口",
+          "original_title": "Grok Imagine API",
+          "url": "https://x.ai/news/grok-imagine-api",
+          "published_at": "2026-01-28 00:00",
+          "handle": "@grok",
+          "summary": "Grok 的多模态能力继续向开发者商品化收口。"
+        }
+      ]
+    },
+    {
+      "name": "Claude",
+      "focus": "推理能力、Artifacts、团队协作和 API 产品化",
+      "trend": "真实使用研究升温",
+      "status_line": "Claude 最近更值得看的是产品研究和默认主力模型调整，而不是同日大版本发布。",
+      "updated_at": "2026-03-18 00:00",
+      "handles": [
+        "AnthropicAI"
+      ],
+      "profile_url": "https://x.com/AnthropicAI",
+      "highlights": [
+        {
+          "title": "Anthropic 披露 81,000 名用户调研，Claude 使用场景继续扩散",
+          "original_title": "What 81,000 people want from AI",
+          "url": "https://www.anthropic.com/news",
+          "published_at": "2026-03-18 00:00",
+          "handle": "@AnthropicAI",
+          "summary": "Claude 的产品观察重心转向长期使用行为和高价值任务迁移。"
+        },
+        {
+          "title": "Claude Sonnet 4.6 仍是当前最重要的默认工作马模型",
+          "original_title": "Introducing Claude Sonnet 4.6",
+          "url": "https://www.anthropic.com/news/claude-sonnet-4-6?category=crm",
+          "published_at": "2026-02-17 00:00",
+          "handle": "@AnthropicAI",
+          "summary": "Anthropic 继续强调编码、代理和长上下文工作流里的性价比。"
+        }
+      ]
+    },
+    {
+      "name": "ChatGPT",
+      "focus": "ChatGPT 功能更新、Agents、语音和工作流落地",
+      "trend": "默认体验继续收敛",
+      "status_line": "OpenAI 最近在 ChatGPT 侧的动作主要是收敛模型入口和打磨默认对话体验。",
+      "updated_at": "2026-03-17 00:00",
+      "handles": [
+        "OpenAI"
+      ],
+      "profile_url": "https://x.com/OpenAI",
+      "highlights": [
+        {
+          "title": "ChatGPT 模型选择器简化为 Instant、Thinking、Pro 三层主路径",
+          "original_title": "Updates to the model picker in ChatGPT",
+          "url": "https://help.openai.com/en/articles/6825453-how-can-i-integrate-chatgpt-with-my-app",
+          "published_at": "2026-03-17 00:00",
+          "handle": "@OpenAI",
+          "summary": "OpenAI 正在把复杂模型配置藏到更深层，优先降低普通用户理解成本。"
+        },
+        {
+          "title": "GPT-5.3 Instant 再次更新，重点修正追问语气和“吊胃口”表达",
+          "original_title": "GPT-5.3 Instant update",
+          "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+          "published_at": "2026-03-16 00:00",
+          "handle": "@OpenAI",
+          "summary": "这类细调不会改写能力上限，但会直接影响日常使用体感。"
+        }
+      ]
+    }
+  ],
+  "source_health": [
+    {
+      "name": "OpenAI / Help Center",
+      "kind": "news",
+      "status": "ok",
+      "message": "手动核验 2 条 2026 年 3 月官方更新"
+    },
+    {
+      "name": "Google / Gemini Blog",
+      "kind": "news",
+      "status": "ok",
+      "message": "手动核验 2 条官方模型更新"
+    },
+    {
+      "name": "Anthropic / Newsroom",
+      "kind": "news",
+      "status": "ok",
+      "message": "手动核验 2 条官方动态"
+    },
+    {
+      "name": "xAI / News",
+      "kind": "news",
+      "status": "ok",
+      "message": "手动核验 2 条官网动态"
+    },
+    {
+      "name": "Google News / AI headlines",
+      "kind": "news",
+      "status": "error",
+      "message": "本地运行时 DNS 解析失败，未能自动抓取"
+    },
+    {
+      "name": "Google News / Big model companies",
+      "kind": "news",
+      "status": "error",
+      "message": "本地运行时 DNS 解析失败，未能自动抓取"
+    },
+    {
+      "name": "Google News / AI infra and agents",
+      "kind": "news",
+      "status": "error",
+      "message": "本地运行时 DNS 解析失败，未能自动抓取"
+    },
+    {
+      "name": "X / @GeminiApp",
+      "kind": "x",
+      "status": "error",
+      "message": "X RSS 镜像不可达，今天改用官网信息回填"
+    },
+    {
+      "name": "X / @grok",
+      "kind": "x",
+      "status": "error",
+      "message": "X RSS 镜像不可达，今天改用官网信息回填"
+    },
+    {
+      "name": "X / @AnthropicAI",
+      "kind": "x",
+      "status": "error",
+      "message": "X RSS 镜像不可达，今天改用官网信息回填"
+    },
+    {
+      "name": "X / @OpenAI",
+      "kind": "x",
+      "status": "error",
+      "message": "X RSS 镜像不可达，今天改用官网信息回填"
+    }
+  ],
+  "notes": [
+    "今天这版数据由本地脚本空跑后，基于 OpenAI、Google、Anthropic、xAI 官方网页手动核验回填。",
+    "2026年03月29日 没有核实到新的同日重磅模型发布，因此摘要重点放在最近一轮仍在发酵的官方更新。",
+    "若要恢复全自动抓取，需要先解决本地 DNS 失败，以及 X_RSS_TEMPLATE 指向的镜像可访问性。"
+  ]
+}

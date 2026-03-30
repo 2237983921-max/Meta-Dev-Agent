@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 早报面板</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="aurora aurora-left"></div>
+      <div class="aurora aurora-right"></div>
+
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Daily AI Watch</p>
+          <h1 id="headline">正在加载今天的 AI 早报…</h1>
+          <p id="summary" class="summary"></p>
+
+          <div class="meta-row">
+            <span id="generated-label" class="pill">读取中</span>
+            <span id="mode-label" class="pill subtle">等待数据</span>
+            <button id="refresh-button" class="refresh-button" type="button">刷新今天内容</button>
+          </div>
+        </div>
+
+        <section class="hero-panel">
+          <div class="panel-title">晨间速览</div>
+          <div id="quick-cards" class="quick-cards"></div>
+        </section>
+      </header>
+
+      <main class="dashboard">
+        <section class="stats-grid" id="stats-grid"></section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <h2>AI 圈大新闻</h2>
+            <p>中文主标题 + AI 总结，早上扫一眼就够了。</p>
+          </div>
+          <div id="top-news" class="news-grid"></div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <h2>X 监控面板</h2>
+            <p>盯住 Gemini、Grok、Claude、ChatGPT 的更新状态。</p>
+          </div>
+          <div id="watchlist" class="watch-grid"></div>
+        </section>
+
+        <section class="section-block lower-grid">
+          <div class="sub-panel">
+            <div class="section-heading compact">
+              <h2>源状态</h2>
+              <p>方便你快速判断今天数据是不是完整。</p>
+            </div>
+            <div id="source-health" class="source-list"></div>
+          </div>
+
+          <div class="sub-panel">
+            <div class="section-heading compact">
+              <h2>提醒</h2>
+              <p>真实跑数前，这里会显示配置建议。</p>
+            </div>
+            <ul id="notes" class="notes-list"></ul>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="stat-template">
+      <article class="stat-card">
+        <div class="stat-label"></div>
+        <div class="stat-value"></div>
+        <div class="stat-footnote"></div>
+      </article>
+    </template>
+
+    <template id="news-template">
+      <article class="news-card">
+        <div class="card-topline">
+          <span class="tag"></span>
+          <span class="timestamp"></span>
+        </div>
+        <h3></h3>
+        <p class="original-title"></p>
+        <p class="source-brief"></p>
+        <div class="ai-summary">
+          <span class="ai-label">AI 总结</span>
+          <p class="ai-body"></p>
+        </div>
+        <div class="card-footer">
+          <span class="source"></span>
+          <a target="_blank" rel="noreferrer">原文</a>
+        </div>
+      </article>
+    </template>
+
+    <template id="watch-template">
+      <article class="watch-card">
+        <div class="watch-topline">
+          <div>
+            <p class="watch-name"></p>
+            <p class="watch-focus"></p>
+          </div>
+          <span class="watch-trend"></span>
+        </div>
+        <p class="watch-status"></p>
+        <div class="watch-meta">
+          <span class="watch-time"></span>
+          <a class="watch-link" target="_blank" rel="noreferrer">打开主页</a>
+        </div>
+        <div class="highlight-list"></div>
+      </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

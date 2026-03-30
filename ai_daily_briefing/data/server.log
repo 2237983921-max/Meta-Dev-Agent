@@ -1,0 +1,10 @@
+::ffff:127.0.0.1 - - [25/Mar/2026 17:37:19] "HEAD /index.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [25/Mar/2026 17:37:21] "HEAD /data/latest.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [25/Mar/2026 17:43:24] "GET /index.html HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [25/Mar/2026 17:43:24] "GET /styles.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [25/Mar/2026 17:43:24] "GET /app.js HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [25/Mar/2026 17:43:24] "GET /data/latest.json?t=1774431804367 HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [26/Mar/2026 10:02:52] "GET /index.html HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [26/Mar/2026 10:02:52] "GET /app.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [26/Mar/2026 10:02:52] "GET /styles.css HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [26/Mar/2026 10:02:52] "GET /data/latest.json?t=1774490572697 HTTP/1.1" 200 -

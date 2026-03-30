@@ -1,0 +1,556 @@
+// /home/user/meme-tracker/js/app.js
+// ===== 主应用逻辑 =====
+
+(function() {
+  'use strict';
+
+  const tracker = new MemeTracker();
+  let currentPage = 'dashboard';
+
+  // ===== 页面导航 =====
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const page = item.dataset.page;
+      switchPage(page);
+    });
+  });
+
+  function switchPage(page) {
+    currentPage = page;
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`page-${page}`)?.classList.add('active');
+
+    // 页面进入时刷新
+    if (page === 'trending') renderTrendingPage();
+    if (page === 'kol') renderKOLPage();
+    if (page === 'alerts') renderFullAlerts();
+    if (page === 'feed') renderFullFeed();
+  }
+
+  // ===== 推文流渲染 =====
+  function createFeedItemHTML(tweet) {
+    const time = formatTime(tweet.timestamp);
+    const tags = [];
+    if (tweet.isNewToken) tags.push('<span class="feed-tag new-token">🆕 新代币</span>');
+    if (tweet.isKol) tags.push('<span class="feed-tag kol">👑 KOL</span>');
+    if (tweet.isWhale) tags.push('<span class="feed-tag hot">🐋 鲸鱼</span>');
+    if (tweet.engagement > 2000) tags.push('<span class="feed-tag hot">🔥 高热度</span>');
+    if (tweet.text.includes('pump.fun')) tags.push('<span class="feed-tag pump">💊 Pump.fun</span>');
+
+    // 高亮代币符号
+    const highlightedText = escapeHTML(tweet.text).replace(
+      /(\$\w+)/g,
+      '<span class="token-mention" data-token="$1">$1</span>'
+    );
+
+    const highlightClass = (tweet.isKol || tweet.isNewToken || tweet.isWhale) ? 'highlight' : '';
+    const newClass = 'alert-new';
+
+    return `
+      <div class="feed-item ${highlightClass} ${newClass}" data-tweet-id="${tweet.id}">
+        <div class="feed-avatar ${tweet.isKol ? 'kol' : ''}">${tweet.user.avatar}</div>
+        <div class="feed-content">
+          <div class="feed-user">
+            <span class="feed-username">${escapeHTML(tweet.user.name)}</span>
+            <span class="feed-handle">${escapeHTML(tweet.user.handle)}</span>
+            ${tweet.user.followers ? `<span class="feed-handle">(${tweet.user.followers})</span>` : ''}
+            <span class="feed-time">${time}</span>
+          </div>
+          <div class="feed-text">${highlightedText}</div>
+          <div class="feed-tags">${tags.join('')}</div>
+          <div class="feed-meta">
+            <span class="feed-stat">❤️ ${formatNumber(tweet.likes)}</span>
+            <span class="feed-stat">🔁 ${formatNumber(tweet.retweets)}</span>
+            <span class="feed-stat">💬 ${formatNumber(tweet.replies)}</span>
+            <span class="feed-stat" style="margin-left:auto;color:${tweet.token.chain === 'SOL' ? '#9945FF' : tweet.token.chain === 'ETH' ? '#627EEA' : '#0052FF'}">${tweet.token.chain}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function addTweetToFeed(tweet, containerId = 'feed-list', maxItems = 50) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const div = document.createElement('div');
+    div.innerHTML = createFeedItemHTML(tweet);
+    const item = div.firstElementChild;
+
+    container.prepend(item);
+
+    // 点击代币标签
+    item.querySelectorAll('.token-mention').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showTokenModal(el.dataset.token);
+      });
+    });
+
+    // 限制数量
+    while (container.children.length > maxItems) {
+      container.lastChild.remove();
+    }
+  }
+
+  // ===== 代币表格渲染 =====
+  function renderTokenTable() {
+    const container = document.getElementById('token-table-body');
+    if (!container) return;
+
+    const tokens = tracker.getTrendingTokens().slice(0, 10);
+    container.innerHTML = '';
+
+    tokens.forEach((token, idx) => {
+      const sentimentClass = token.sentiment > 65 ? 'positive' : token.sentiment < 40 ? 'negative' : 'neutral';
+      const canvasId = `spark-${token.symbol.replace('$', '')}`;
+
+      const row = document.createElement('div');
+      row.className = 'token-row';
+      row.innerHTML = `
+        <span class="col-rank">${idx + 1}</span>
+        <span class="col-name">
+          <span class="token-icon-small">${token.icon}</span>
+          <span class="token-info-col">
+            <span class="token-ticker">${token.symbol}</span><br>
+            <span class="token-chain-tag">${token.chain}</span>
+          </span>
+        </span>
+        <span class="col-mentions">${formatNumber(token.mentions)}</span>
+        <span class="col-sentiment">
+          <div class="sentiment-bar">
+            <div class="sentiment-bar-fill ${sentimentClass}" style="width:${token.sentiment}%"></div>
+          </div>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">${token.sentiment}%</span>
+        </span>
+        <span class="col-chart">
+          <canvas id="${canvasId}" width="80" height="30"></canvas>
+        </span>
+        <span class="col-action">
+          <button class="action-btn">详情</button>
+        </span>
+      `;
+
+      row.addEventListener('click', () => showTokenModal(token.symbol));
+      container.appendChild(row);
+
+      // 绘制迷你图
+      requestAnimationFrame(() => {
+        const canvas = document.getElementById(canvasId);
+        if (canvas && token.sparkline) {
+          const color = token.sparkline[token.sparkline.length - 1] > token.sparkline[0] ? '#00ff88' : '#ff2d57';
+          SparklineChart.draw(canvas, token.sparkline, color);
+        }
+      });
+    });
+  }
+
+  // ===== 提醒渲染 =====
+  function addAlertToList(alert, containerId = 'alerts-list', maxItems = 20) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const div = document.createElement('div');
+    div.className = `alert-item unread`;
+    div.innerHTML = `
+      <div class="alert-icon ${alert.type}">${alert.icon}</div>
+      <div class="alert-content">
+        <div class="alert-title">${escapeHTML(alert.title)}</div>
+        <div class="alert-desc">${escapeHTML(alert.desc)}</div>
+        <div class="alert-time">${formatTime(alert.timestamp)}</div>
+      </div>
+    `;
+
+    if (alert.token) {
+      div.style.cursor = 'pointer';
+      div.addEventListener('click', () => showTokenModal(alert.token.symbol));
+    }
+
+    container.prepend(div);
+    while (container.children.length > maxItems) {
+      container.lastChild.remove();
+    }
+  }
+
+  // ===== 热力图 / 话题云 =====
+  function renderHeatmap() {
+    const container = document.getElementById('heatmap-container');
+    if (!container) return;
+
+    const tokens = tracker.getTrendingTokens();
+    container.innerHTML = '';
+
+    tokens.forEach(token => {
+      const size = Math.max(12, Math.min(28, 10 + token.mentions / 200));
+      const hue = token.sentiment > 65 ? 140 : token.sentiment > 40 ? 50 : 0;
+      const alpha = Math.min(1, 0.3 + token.mentions / 5000);
+
+      const el = document.createElement('span');
+      el.className = 'heatmap-item';
+      el.textContent = `${token.icon} ${token.symbol}`;
+      el.style.fontSize = size + 'px';
+      el.style.background = `hsla(${hue}, 80%, 50%, 0.15)`;
+      el.style.color = `hsla(${hue}, 80%, 70%, ${alpha})`;
+      el.style.border = `1px solid hsla(${hue}, 80%, 50%, 0.2)`;
+      el.addEventListener('click', () => showTokenModal(token.symbol));
+      container.appendChild(el);
+    });
+  }
+
+  // ===== 趋势页面 =====
+  function renderTrendingPage() {
+    const container = document.getElementById('trending-grid');
+    if (!container) return;
+
+    const tokens = tracker.getTrendingTokens();
+    container.innerHTML = '';
+
+    tokens.forEach(token => {
+      const change = token.sparkline ? Math.round((token.sparkline[token.sparkline.length - 1] / token.sparkline[0] - 1) * 100) : 0;
+      const canvasId = `trend-chart-${token.symbol.replace('$', '')}-${Date.now()}`;
+
+      const card = document.createElement('div');
+      card.className = 'trending-card';
+      card.innerHTML = `
+        <div class="trending-card-header">
+          <div class="trending-card-icon">${token.icon}</div>
+          <div>
+            <div class="trending-card-name">${token.name}</div>
+            <div class="trending-card-ticker">${token.symbol} · ${token.chain}</div>
+          </div>
+        </div>
+        <div class="trending-card-stats">
+          <div class="trending-stat">
+            <span class="trending-stat-label">提及次数</span>
+            <span class="trending-stat-value">${formatNumber(token.mentions)}</span>
+          </div>
+          <div class="trending-stat">
+            <span class="trending-stat-label">趋势</span>
+            <span class="trending-stat-value ${change >= 0 ? 'up' : 'down'}">${change >= 0 ? '+' : ''}${change}%</span>
+          </div>
+          <div class="trending-stat">
+            <span class="trending-stat-label">情绪分数</span>
+            <span class="trending-stat-value">${token.sentiment}%</span>
+          </div>
+          <div class="trending-stat">
+            <span class="trending-stat-label">独立用户</span>
+            <span class="trending-stat-value">${token.uniqueUsers ? token.uniqueUsers.size : '-'}</span>
+          </div>
+        </div>
+        <div class="trending-card-chart">
+          <canvas id="${canvasId}" width="260" height="60"></canvas>
+        </div>
+      `;
+      card.addEventListener('click', () => showTokenModal(token.symbol));
+      container.appendChild(card);
+
+      requestAnimationFrame(() => {
+        const canvas = document.getElementById(canvasId);
+        if (canvas && token.sparkline) {
+          const color = change >= 0 ? '#00ff88' : '#ff2d57';
+          SparklineChart.draw(canvas, token.sparkline, color, 0.15);
+        }
+      });
+    });
+  }
+
+  // ===== KOL 页面 =====
+  function renderKOLPage() {
+    const container = document.getElementById('kol-grid');
+    if (!container) return;
+    container.innerHTML = '';
+
+    DATA.kols.forEach(kol => {
+      const recentTweets = tracker.tweetHistory.filter(t => t.user.handle === kol.handle).slice(0, 1);
+      const card = document.createElement('div');
+      card.className = 'kol-card';
+      card.innerHTML = `
+        <div class="kol-header">
+          <div class="kol-avatar">${kol.avatar}</div>
+          <div>
+            <div class="kol-name">${kol.name}</div>
+            <div class="kol-handle">${kol.handle}</div>
+            <div class="kol-followers">${kol.followers} followers · 影响力 ${kol.influence}/100</div>
+          </div>
+        </div>
+        <div class="kol-recent">
+          <h4>最近推文</h4>
+          ${recentTweets.length > 0
+            ? `<div class="kol-tweet">${escapeHTML(recentTweets[0].text).replace(/(\$\w+)/g, '<span class="token-mention">$1</span>')}</div>`
+            : '<div class="kol-tweet" style="color:var(--text-muted);">暂无捕获到的推文...</div>'
+          }
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // ===== 完整推文流页面 =====
+  function renderFullFeed() {
+    const container = document.getElementById('full-feed-list');
+    if (!container) return;
+    container.innerHTML = '';
+    tracker.tweetHistory.slice(0, 50).forEach(tweet => {
+      addTweetToFeed(tweet, 'full-feed-list', 100);
+    });
+  }
+
+  // ===== 完整提醒页面 =====
+  function renderFullAlerts() {
+    const container = document.getElementById('full-alerts-list');
+    if (!container) return;
+    container.innerHTML = '';
+    tracker.alerts.forEach(alert => {
+      addAlertToList(alert, 'full-alerts-list', 100);
+    });
+  }
+
+  // ===== 代币弹窗 =====
+  function showTokenModal(symbol) {
+    const token = tracker.getTokenData(symbol);
+    if (!token) return;
+
+    document.getElementById('modal-icon').textContent = token.icon;
+    document.getElementById('modal-name').textContent = token.name;
+    document.getElementById('modal-ticker').textContent = token.symbol;
+    document.getElementById('modal-chain').textContent = token.chain;
+    document.getElementById('modal-mentions').textContent = formatNumber(token.mentions);
+    document.getElementById('modal-users').textContent = token.uniqueUsers ? token.uniqueUsers.size : '-';
+    document.getElementById('modal-sentiment').textContent = token.sentiment + '%';
+    document.getElementById('modal-discovered').textContent = token.firstSeen ? formatTime(token.firstSeen) : '-';
+
+    // DEX 链接
+    const dexLink = document.getElementById('modal-dex-link');
+    dexLink.href = `https://dexscreener.com/solana?q=${encodeURIComponent(token.symbol.replace('$', ''))}`;
+
+    // X 搜索链接
+    const twitterLink = document.getElementById('modal-twitter-link');
+    twitterLink.href = `https://twitter.com/search?q=${encodeURIComponent(token.symbol)}&f=live`;
+
+    // 图表
+    requestAnimationFrame(() => {
+      const canvas = document.getElementById('modal-chart');
+      if (canvas && token.sparkline) {
+        const color = token.sentiment > 50 ? '#00ff88' : '#ff2d57';
+        SparklineChart.drawModalChart(canvas, token.sparkline, color);
+      }
+    });
+
+    // 相关推文
+    const tweetsContainer = document.getElementById('modal-tweets-list');
+    tweetsContainer.innerHTML = '';
+    const relatedTweets = (token.recentMentions || []).slice(0, 5);
+    relatedTweets.forEach(tweet => {
+      const div = document.createElement('div');
+      div.style.cssText = 'padding:10px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px;';
+      div.innerHTML = `
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span>${tweet.user.avatar}</span>
+          <strong>${escapeHTML(tweet.user.name)}</strong>
+          <span style="color:var(--text-muted);font-size:12px;">${escapeHTML(tweet.user.handle)}</span>
+          <span style="color:var(--text-muted);font-size:11px;margin-left:auto;">${formatTime(tweet.timestamp)}</span>
+        </div>
+        <div style="color:var(--text-secondary);line-height:1.5;">${escapeHTML(tweet.text).replace(/(\$\w+)/g, '<span style="color:var(--accent-blue);font-weight:600;">$1</span>')}</div>
+      `;
+      tweetsContainer.appendChild(div);
+    });
+
+    document.getElementById('token-modal').classList.remove('hidden');
+  }
+
+  document.getElementById('modal-close').addEventListener('click', () => {
+    document.getElementById('token-modal').classList.add('hidden');
+  });
+
+  document.getElementById('token-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'token-modal') {
+      document.getElementById('token-modal').classList.add('hidden');
+    }
+  });
+
+  document.getElementById('modal-track-btn')?.addEventListener('click', () => {
+    showToast('success', '✅ 已开启追踪', '当该代币有异常变动时将自动提醒');
+  });
+
+  // ===== Toast 通知 =====
+  function showToast(type, title, desc, duration = 4000) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    const icons = { success: '✅', warning: '⚠️', alert: '🚨', info: '💡' };
+    toast.innerHTML = `
+      <span class="toast-icon">${icons[type] || '💡'}</span>
+      <div class="toast-content">
+        <div class="toast-title">${title}</div>
+        <div class="toast-desc">${desc}</div>
+      </div>
+    `;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.animation = 'toastOut 0.3s ease-in forwards';
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
+
+  // ===== 统计更新 =====
+  function updateStats() {
+    const stats = tracker.getStats();
+    document.getElementById('stat-scanned').textContent = formatNumber(stats.scanned);
+    document.getElementById('stat-detected').textContent = stats.detected;
+    document.getElementById('stat-alerts').textContent = stats.alerts;
+    document.getElementById('stat-trending').textContent = stats.trending;
+    document.getElementById('stat-scanned-rate').textContent = Math.floor(stats.scanned / Math.max(1, (Date.now() - startTime) / 60000));
+
+    document.getElementById('sidebar-tweets').textContent = formatNumber(stats.scanned);
+    document.getElementById('sidebar-tokens').textContent = stats.detected;
+
+    document.getElementById('alert-badge').textContent = stats.alerts;
+    document.getElementById('nav-alert-count').textContent = stats.alerts;
+  }
+
+  // ===== 事件绑定 =====
+  tracker.onNewTweet = (tweet) => {
+    addTweetToFeed(tweet, 'feed-list');
+    if (currentPage === 'feed') {
+      addTweetToFeed(tweet, 'full-feed-list', 100);
+    }
+  };
+
+  tracker.onNewAlert = (alert) => {
+    addAlertToList(alert, 'alerts-list');
+    if (currentPage === 'alerts') {
+      addAlertToList(alert, 'full-alerts-list', 100);
+    }
+
+    // Toast
+    const toastTypes = {
+      'new-token': 'alert',
+      'kol-mention': 'warning',
+      'spike': 'alert',
+      'whale': 'info',
+    };
+    showToast(toastTypes[alert.type] || 'info', alert.title, alert.desc, 5000);
+  };
+
+  tracker.onStatsUpdate = () => {
+    updateStats();
+  };
+
+  // 定期更新表格和热力图
+  setInterval(() => {
+    renderTokenTable();
+    renderHeatmap();
+  }, 5000);
+
+  // 暂停/播放推文流
+  document.getElementById('pause-feed')?.addEventListener('click', function() {
+    tracker.feedPaused = !tracker.feedPaused;
+    this.innerHTML = tracker.feedPaused
+      ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+      : '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+  });
+
+  // 声音开关
+  document.getElementById('toggle-sound')?.addEventListener('click', function() {
+    tracker.soundEnabled = !tracker.soundEnabled;
+    this.style.color = tracker.soundEnabled ? 'var(--accent-blue)' : 'var(--text-muted)';
+    showToast('info', tracker.soundEnabled ? '🔔 声音已开启' : '🔇 声音已静音', '');
+  });
+
+  // 清空提醒
+  document.getElementById('clear-alerts')?.addEventListener('click', () => {
+    document.getElementById('alerts-list').innerHTML = '';
+    tracker.alerts.forEach(a => a.read = true);
+    updateStats();
+  });
+
+  // 提醒面板
+  document.getElementById('toggle-alerts')?.addEventListener('click', () => {
+    switchPage('alerts');
+  });
+
+  // Tab 切换
+  document.querySelectorAll('.panel-tabs .tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // 搜索
+  document.getElementById('search-input')?.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    if (q && q.startsWith('$')) {
+      const token = tracker.getTokenData(q.toUpperCase());
+      if (token) {
+        showTokenModal(q.toUpperCase());
+        this.value = '';
+      }
+    }
+  });
+
+  // Keyboard shortcut
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      document.getElementById('search-input')?.focus();
+    }
+    if (e.key === 'Escape') {
+      document.getElementById('token-modal').classList.add('hidden');
+    }
+  });
+
+  // 保存设置
+  document.getElementById('save-settings')?.addEventListener('click', () => {
+    showToast('success', '✅ 设置已保存', '新的配置将在下次扫描时生效');
+  });
+
+  // 筛选 chips
+  document.querySelectorAll('.filter-chips .chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      this.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ===== 工具函数 =====
+  function formatNumber(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+    return n.toString();
+  }
+
+  function formatTime(date) {
+    const now = new Date();
+    const diff = Math.floor((now - date) / 1000);
+    if (diff < 10) return '刚刚';
+    if (diff < 60) return diff + '秒前';
+    if (diff < 3600) return Math.floor(diff / 60) + '分钟前';
+    if (diff < 86400) return Math.floor(diff / 3600) + '小时前';
+    return Math.floor(diff / 86400) + '天前';
+  }
+
+  function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ===== 启动 =====
+  const startTime = Date.now();
+
+  // 初始渲染
+  renderTokenTable();
+  renderHeatmap();
+  updateStats();
+
+  // 启动追踪引擎
+  tracker.start();
+
+  console.log('%c📡 MemeRadar Started', 'color: #00d4ff; font-size: 16px; font-weight: bold;');
+  console.log('%cTracking meme coins from X in real-time...', 'color: #94a3b8;');
+
+})();
