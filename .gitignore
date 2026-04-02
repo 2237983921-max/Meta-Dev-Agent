@@ -2,3 +2,5 @@ __pycache__/
 *.py[cod]
 .DS_Store
 .venv/
+不同角度对话/.env
+不同角度对话/.DS_Store
