@@ -1,0 +1,149 @@
+{
+  "type": "object",
+  "required": ["topic_deconstruction", "agents", "director_summary", "action_suggestions", "layering"],
+  "properties": {
+    "topic_deconstruction": {
+      "type": "object",
+      "required": ["surface_conflict", "real_dispute", "key_variables", "loud_but_minor", "silent_but_powerful"],
+      "properties": {
+        "surface_conflict": { "type": "string", "description": "表面上在吵什么" },
+        "real_dispute": { "type": "string", "description": "实际上在争什么" },
+        "key_variables": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "真正决定走向的变量"
+        },
+        "loud_but_minor": { "type": "string", "description": "哪些声音很响但未必关键" },
+        "silent_but_powerful": { "type": "string", "description": "哪些力量不吭声但最能改结果" }
+      }
+    },
+    "agents": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name", "alias", "identity", "core_interest", "main_fear", "info_type", "dimensions", "blind_spot", "voice_profile", "monologue"],
+        "properties": {
+          "id": { "type": "string", "description": "角色稳定标识" },
+          "display_name": { "type": "string", "description": "主显示名，面向所有用户可见区域" },
+          "alias": { "type": "string", "description": "补充标签，只能作辅助说明" },
+          "identity": { "type": "string", "description": "社会身份画像" },
+          "core_interest": { "type": "string", "description": "最在乎的利益" },
+          "main_fear": { "type": "string", "description": "最害怕的风险" },
+          "info_type": { "type": "string", "description": "掌握的信息类型" },
+          "dimensions": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "代表的关键维度"
+          },
+          "blind_spot": { "type": "string", "description": "盲点" },
+          "voice_profile": {
+            "type": "object",
+            "required": ["sentence_length_tendency", "abstraction_preference", "expression_habits", "emotion_intensity", "reasoning_moves"],
+            "properties": {
+              "sentence_length_tendency": { "type": "string", "description": "句子长短和节奏倾向" },
+              "abstraction_preference": { "type": "string", "description": "偏具体还是偏抽象" },
+              "expression_habits": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "常用表达方式"
+              },
+              "emotion_intensity": { "type": "string", "description": "情绪浓度" },
+              "reasoning_moves": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "更喜欢怎样推进观点，例如举例、算账、抱怨、下判断"
+              }
+            }
+          },
+          "monologue": { "type": "string", "description": "暗房独白，第一人称，200-400字" }
+        }
+      }
+    },
+    "director_summary": {
+      "type": "object",
+      "required": ["surface_conflict", "deep_drivers", "common_ground", "misalignment", "voice_vs_power", "hidden_variables", "future_triggers", "stereo_truth"],
+      "properties": {
+        "surface_conflict": { "type": "string" },
+        "deep_drivers": { "type": "string" },
+        "common_ground": { "type": "string" },
+        "misalignment": { "type": "string" },
+        "voice_vs_power": { "type": "string" },
+        "hidden_variables": { "type": "string" },
+        "future_triggers": { "type": "string" },
+        "stereo_truth": { "type": "string" }
+      }
+    },
+    "action_suggestions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["target", "suggestion", "reason"],
+        "properties": {
+          "target": { "type": "string", "description": "面向哪类人" },
+          "suggestion": { "type": "string", "description": "具体建议" },
+          "reason": { "type": "string", "description": "为什么是这条" }
+        }
+      }
+    },
+    "layering": {
+      "type": "object",
+      "required": ["facts", "inferences", "emotions_biases"],
+      "properties": {
+        "facts": { "type": "string" },
+        "inferences": { "type": "string" },
+        "emotions_biases": { "type": "string" }
+      }
+    },
+    "enhancements": {
+      "type": "object",
+      "description": "增强模块输出，按激活情况填入",
+      "properties": {
+        "winners_losers": {
+          "type": "object",
+          "properties": {
+            "short_term_winners": { "type": "string" },
+            "short_term_losers": { "type": "string" },
+            "long_term_comeback": { "type": "string" },
+            "long_term_drained": { "type": "string" }
+          }
+        },
+        "timeline": {
+          "type": "object",
+          "properties": {
+            "one_month": { "type": "string" },
+            "six_months": { "type": "string" },
+            "two_years": { "type": "string" }
+          }
+        },
+        "signal_vs_noise": {
+          "type": "object",
+          "properties": {
+            "loudest_online": { "type": "string" },
+            "real_determinants": { "type": "string" }
+          }
+        },
+        "first_movers": { "type": "string" },
+        "monitor_signals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 3
+        },
+        "appendix": {
+          "type": "object",
+          "properties": {
+            "issue_type": { "type": "string" },
+            "conflict_axes": { "type": "array", "items": { "type": "string" } },
+            "high_stakes_agents": { "type": "array", "items": { "type": "string" } },
+            "high_influence_agents": { "type": "array", "items": { "type": "string" } },
+            "hidden_variables": { "type": "array", "items": { "type": "string" } },
+            "future_triggers": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}
